@@ -1,26 +1,77 @@
+import React from "react";
 import { BrowserRouter, Routes, Route, Router } from "react-router-dom"
 import { createRoot } from 'react-dom/client'
+import { useImmerReducer } from "use-immer"
 import './StyleSheet.css'
 
 //components
 import Home from "./Components/Home"
 import Menu from "./Components/Menu"
-import NewRequest from "./Components/NewRequest"
+import NewUser from "./Components/NewUser"
 
-import AdminMenu from "./Components/AdminMenu"
-import Admin from "./Components/Admin"
+import AdminMenu from "./Components/Admin/AdminMenu"
+import AdminHome from "./Components/Admin/AdminHome"
+import Authorization from "./Components/Admin/Authorization"
+import Classes from "./Components/Admin/Classes"
 
-const adminPathnameRegex = new RegExp("^\/admin$|^\/admin\/.*$")
+import FlashMessagesSuccess from "./Components/FlashMessages/FlashMessagesSuccess.jsx";
+import FlashMessagesWarning from "./components/flashMessages/FlashMessagesWarrning.jsx";
+import FlashMessagesError from "./components/flashMessages/FlashMessagesError.jsx";
+import Users from "./Components/Admin/Users";
 
+const AppContext = React.createContext()
+const DispatchContext = React.createContext()
+function Main() {
+    const adminPathnameRegex = new RegExp("^\/admin$|^\/admin\/.*$")
+
+    const initialState = {
+        flashMessageSuccess: {},
+        flashMessageError: {},
+        flashMessageWarrning: {},
+    }
+
+    function appReducer(draft, action) {
+        switch (action.type) {
+            case "flashMessageSuccess":
+                draft.flashMessageSuccess = action.value
+                return
+            case "flashMessageError":
+                draft.flashMessageError = action.value
+                return
+            case "flashMessageWarning":
+                draft.flashMessageWarrning = action.value
+                return
+        }
+    }
+
+    const [state, dispatch] = useImmerReducer(appReducer, initialState)
+
+    return (
+        <AppContext.Provider value={state}>
+            <DispatchContext.Provider value={dispatch}>
+                <BrowserRouter>
+                    <FlashMessagesSuccess flashMessages={state.flashMessageSuccess} />
+                    <FlashMessagesError flashMessages={state.flashMessageError} />
+                    <FlashMessagesWarning flashMessages={state.flashMessageWarrning} />
+                    {adminPathnameRegex.test(window.location.pathname) ? <AdminMenu /> : <Menu />}
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/new-user" element={<NewUser />} />
+
+                        <Route path="/admin" element={<AdminHome />} />
+                        <Route path="/admin/authorization" element={<Authorization />} />
+                        <Route path="/admin/classes" element={<Classes />} />
+                        <Route path="/admin/users" element={<Users />} />
+                    </Routes>
+                </BrowserRouter>
+            </DispatchContext.Provider>
+        </AppContext.Provider>
+    )
+}
 createRoot(document.getElementById('root')).render(
-    <BrowserRouter>
-        {adminPathnameRegex.test(window.location.pathname) ? <AdminMenu /> : <Menu />}
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/new-request" element={<NewRequest />} />
-            <Route path="/admin" element={<Admin />} />
-
-            <Route exact path="/admin" element={<Home />} />
-        </Routes>
-    </BrowserRouter>
+    <Main />
 )
+
+export {
+    AppContext, DispatchContext
+}

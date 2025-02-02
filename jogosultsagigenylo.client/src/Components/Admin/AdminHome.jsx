@@ -1,9 +1,9 @@
-﻿import Container from "./Container";
+﻿import Container from "../Container";
 
 function Admin() {
   return (
       <Container title={"Admin"}>
-          <p>New felhasználó</p>
+          <p>Admin home</p>
       </Container>
   );
 }

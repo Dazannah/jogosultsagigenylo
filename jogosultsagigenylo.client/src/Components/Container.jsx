@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+﻿import { useEffect } from "react"
 function Container(props) {
 
     useEffect(() => {
@@ -6,7 +6,7 @@ function Container(props) {
     }, [])
 
     return (
-        <div className="max-w-9/10 min-w-8/10 mx-auto my-3">{props.children}</div>
+        <div className={`max-w-9/10 min-w-8/10 mx-auto my-3 ${props.className ?? ""}`}>{props.children}</div>
   );
 }
 

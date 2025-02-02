@@ -7,6 +7,7 @@ import Container from "./Container";
 function Menu() {
     const [activeMenu, setActiveMenu] = useState(window.location.pathname);
     const [initialLoad, setInitialLoad] = useState(true)
+    const [isClosed, setIsClosed] = useState(true)
 
     useEffect(() => {
         if (initialLoad) {
@@ -36,6 +37,21 @@ function Menu() {
         setActiveMenu(nextActiveId)
     }
 
+    function showDropdown() {
+        const dropDown = document.getElementById("drop-down")
+
+        if (isClosed) {
+            dropDown.classList.remove("hidden")
+            setIsClosed(false)
+        }
+
+        if (!isClosed) {
+            dropDown.classList.add("hidden")
+            setIsClosed(true)
+        }
+        
+    }
+
     return (
         <Container>
             <nav className="border-gray-200 dark:bg-gray-900">
@@ -46,18 +62,18 @@ function Menu() {
 
                     <div className="items-center bg-transparent justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
                         <div className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                            <Link id="/new-request" to="/new-request" onClick={e => setActive(e.target.id)} className="bg-transparent block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
+                            <Link id="/new-user" to="/new-user" onClick={e => setActive(e.target.id)} className="bg-transparent block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Új felhasználó
                             </Link>
-                            <Link id="/list-request" to="/list-request" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
-                                Kérelmek engedélyezése
-                            </Link>
-                            <Link id="/allowed-request" to="/allowed-request" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
-                                Engedélyezett kérelmek
-                            </Link>
-                            <Link id="/completed-request" to="/completed-request" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
-                                Lezárt kérelmek
-                            </Link>
+                            {/*<Link id="/list-request" to="/list-request" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">*/}
+                            {/*    Kérelmek engedélyezése*/}
+                            {/*</Link>*/}
+                            {/*<Link id="/allowed-request" to="/allowed-request" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">*/}
+                            {/*    Engedélyezett kérelmek*/}
+                            {/*</Link>*/}
+                            {/*<Link id="/completed-request" to="/completed-request" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">*/}
+                            {/*    Lezárt kérelmek*/}
+                            {/*</Link>*/}
                             <Link id="/user" to="/user" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Felhasználók
                             </Link>
