@@ -55,56 +55,24 @@ namespace jogosultsagigenylo.Server.Controllers {
 			}
 		}
 
-		[HttpPatch("inactivate/{id}")]
-		public async Task<IActionResult> Inactivate(int id) {
+		[HttpPatch("edit/{id}")]
+		public async Task<IActionResult> Edit(int id, [FromBody] AuthItemDTO authItemDTO) {
 			try {
-				ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id, "Id megadása kötelező.");
-
 				var authItem = await _context.AuthItems.FirstOrDefaultAsync(ai => ai.Id == id)
 					?? throw new KeyNotFoundException($"Jogosultság {id} id-val nem található.");
 
-				authItem.StatusId = 2;
+				authItem.DisplayName = authItemDTO.DisplayName;
+				authItem.StatusId = authItemDTO.StatusId;
+				authItem.ColumnId = authItemDTO.ColumnId;
 
 				_context.AuthItems.Update(authItem);
 				await _context.SaveChangesAsync();
 
-				return Ok(new { message = "Jogosultság sikeresen inaktivála" });
+				return Ok(new { message = "Jogosultság sikeresen frissítve." });
 			} catch(KeyNotFoundException err) {
 				return NotFound(new { error = err.Message });
 			} catch(Exception err) {
 				return BadRequest(new { error = err.Message });
-			}
-		}
-
-		[HttpPatch("activate/{id}")]
-		public async Task<IActionResult> Activate(int id) {
-			try {
-				ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id, "Id megadása kötelező.");
-
-				var authItem = await _context.AuthItems.FirstOrDefaultAsync(ai => ai.Id == id)
-					?? throw new KeyNotFoundException($"Jogosultság {id} id-val nem található.");
-
-				authItem.StatusId = 1;
-
-				_context.AuthItems.Update(authItem);
-				await _context.SaveChangesAsync();
-
-				return Ok(new { message = "Jogosultság sikeresen aktivála" });
-			} catch(KeyNotFoundException err) {
-				return NotFound(new { error = err.Message });
-			} catch(Exception err) {
-				return BadRequest(new { error = err.Message });
-			}
-		}
-
-		// POST: AuthItemController/Edit/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int id, IFormCollection collection) {
-			try {
-				return RedirectToAction(nameof(Index));
-			} catch {
-				return View();
 			}
 		}
 
