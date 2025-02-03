@@ -54,7 +54,6 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPatch("edit/{id}")]
 		public async Task<IActionResult> Edit(int id, [FromBody] ColumnDTO columnDTO) {
 			try {
-				Console.WriteLine("asd");
 				var column = await _context.Columns.FirstOrDefaultAsync(c => c.Id == id)
 					?? throw new KeyNotFoundException($"Státusz {id} id-val nem található.");
 
