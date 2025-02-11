@@ -11,6 +11,7 @@ namespace jogosultsagigenylo.Server.DTO {
 		[Range(1, int.MaxValue, ErrorMessage = "Hibás státusz id.")]
 		public int StatusId { get; set; }
 		public Status? Status { get; set; }
+		public int Position { get; set; }
 
 		public override string ToString() {
 			return DisplayName;
@@ -25,7 +26,8 @@ namespace jogosultsagigenylo.Server.DTO {
 					DisplayName = column.DisplayName,
 					AuthItems = AuthItemDTO.ToDTOList(column.AuthItems),
 					StatusId = column.StatusId,
-					Status = column.Status
+					Status = column.Status,
+					Position = column.Position
 				});
 			}
 

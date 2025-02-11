@@ -13,7 +13,7 @@ namespace jogosultsagigenylo.Server.DTO {
 		[Range(1, int.MaxValue, ErrorMessage = "Hibás oszlop id.")]
 		public int ColumnId { get; set; }
 		public string? Column { get; set; }
-		public int Position { get; set; } = 0;
+		public int Position { get; set; }
 
 		public static IEnumerable<AuthItemDTO> ToDTOList(IEnumerable<AuthItem> authItems) {
 			var temp = new List<AuthItemDTO> { };
@@ -23,6 +23,7 @@ namespace jogosultsagigenylo.Server.DTO {
 					Id = authItem.Id,
 					DisplayName = authItem.DisplayName,
 					Status = authItem.Status,
+					StatusId = authItem.StatusId,
 					ColumnId = authItem.Column.Id,
 					Column = authItem.Column.ToString(),
 					Position = authItem.Position
