@@ -86,5 +86,23 @@ namespace jogosultsagigenylo.Server.Controllers {
 				return BadRequest(new { error = err.Message });
 			}
 		}
+
+		[HttpPatch("update-order")]
+		public async Task<IActionResult> UpdateOrder([FromBody] List<int> ids) {
+			try {
+				var columns = _context.Columns.ToList();
+
+				foreach(var column in columns) {
+					column.Position = ids.IndexOf(column.Id);
+				}
+
+				_context.Columns.UpdateRange(columns);
+				await _context.SaveChangesAsync();
+
+				return Ok();
+			} catch(Exception err) {
+				return BadRequest(new { error = err.Message });
+			}
+		}
 	}
 }
