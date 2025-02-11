@@ -3,6 +3,7 @@ using jogosultsagigenylo.Server.DTO;
 using jogosultsagigenylo.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace jogosultsagigenylo.Server.Controllers {
 	[ApiController]
@@ -17,8 +18,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpGet("")]
 		public async Task<IActionResult> Index() {
 			IEnumerable<Column> columns = await _context.Columns
+				.OrderBy(c => c.Position)
 				.Include(c => c.Status)
-				.Include(c => c.AuthItems)
+				.Include(c => c.AuthItems.OrderBy(a => a.Position))
 				.ThenInclude(ai => ai.Status)
 				.ToListAsync();
 
@@ -37,11 +39,14 @@ namespace jogosultsagigenylo.Server.Controllers {
 				var status = await _context.Status.FirstOrDefaultAsync(s => s.Id == authItemDTO.StatusId)
 					?? throw new KeyNotFoundException($"Státusz {authItemDTO.StatusId} id-val nem található");
 
+				var lastInColumn = _context.AuthItems.Where(a => a.ColumnId == authItemDTO.ColumnId).OrderByDescending(a => a.Position).FirstOrDefault()?.Position;
+
 				var authItem = new AuthItem {
 					DisplayName = authItemDTO.DisplayName,
 					ColumnId = authItemDTO.ColumnId,
 					Column = column,
-					Status = status
+					Status = status,
+					Position = ++lastInColumn ?? 0
 				};
 
 				_context.AuthItems.Add(authItem);
@@ -58,14 +63,27 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPatch("edit/{id}")]
 		public async Task<IActionResult> Edit(int id, [FromBody] AuthItemDTO authItemDTO) {
 			try {
-				var authItem = await _context.AuthItems.FirstOrDefaultAsync(ai => ai.Id == id)
+				var allAuthItems = await _context.AuthItems
+					.Where(ai => ai.ColumnId == authItemDTO.ColumnId)
+					.ToListAsync();
+
+				var authItem = allAuthItems.FirstOrDefault(ai => ai.Id == id)
 					?? throw new KeyNotFoundException($"Jogosultság {id} id-val nem található.");
 
 				authItem.DisplayName = authItemDTO.DisplayName;
 				authItem.StatusId = authItemDTO.StatusId;
 				authItem.ColumnId = authItemDTO.ColumnId;
+				authItem.Position = authItemDTO.Position;
 
-				_context.AuthItems.Update(authItem);
+				var sortedAllAuthItems = allAuthItems.OrderBy(ai => ai.Position).ThenBy(ai => ai.DisplayName);
+
+				int newPosition = 1;
+				foreach(var item in sortedAllAuthItems) {
+					item.Position = newPosition;
+					newPosition++;
+				}
+
+				_context.AuthItems.UpdateRange(sortedAllAuthItems);
 				await _context.SaveChangesAsync();
 
 				return Ok(new { message = "Jogosultság sikeresen frissítve." });
@@ -89,6 +107,33 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				return Ok(new { message = "Jogosultság sikeresen törölve" });
 			} catch(ArgumentOutOfRangeException err) {
+				return NotFound(new { error = err.Message });
+			} catch(Exception err) {
+				return BadRequest(new { error = err.Message });
+			}
+		}
+
+		[HttpPatch("update-order/{columnId}")]
+		public async Task<IActionResult> UpdateOrder(int columnId, [FromBody] List<AuthItemDTO> authItemDTOs) {
+			try {
+				Console.WriteLine("UpdateOrder");
+				var authItems = _context.AuthItems.Where(a => a.ColumnId == columnId)
+					?? throw new KeyNotFoundException($"Oszlop {columnId} id-val nem található.");
+				var positions = new Hashtable();
+
+				foreach(var authItemDTO in authItemDTOs) {
+					positions.Add($"{authItemDTO.Id}", authItemDTO.Position);
+				}
+
+				foreach(var authItem in authItems) {
+					authItem.Position = (int)positions[$"{authItem.Id}"];
+				}
+
+				_context.AuthItems.UpdateRange(authItems);
+				await _context.SaveChangesAsync();
+
+				return Ok();
+			} catch(KeyNotFoundException err) {
 				return NotFound(new { error = err.Message });
 			} catch(Exception err) {
 				return BadRequest(new { error = err.Message });
