@@ -12,6 +12,7 @@ namespace jogosultsagigenylo.Server.Models {
 		public int StatusId { get; set; }
 		[ForeignKey("StatusId")]
 		public required Status Status { get; set; }
+		public int Position { get; set; } = int.MaxValue;
 		public override string ToString() {
 			return DisplayName;
 		}
