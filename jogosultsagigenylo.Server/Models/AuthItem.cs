@@ -10,10 +10,10 @@ namespace jogosultsagigenylo.Server.Models {
 		public required string DisplayName { get; set; }
 		public int ColumnId { get; set; }
 		[ForeignKey("ColumnId")]
-		public required Column Column { get; set; }
+		public Column Column { get; set; }
 		public int StatusId { get; set; }
 		[ForeignKey("StatusId")]
-		public required Status Status { get; set; }
+		public Status Status { get; set; }
 		public int Position { get; set; }
 	}
 }
