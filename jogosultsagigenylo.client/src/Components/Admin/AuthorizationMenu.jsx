@@ -47,10 +47,10 @@ function AuthorizationMenu(props) {
                     dispatch({ type: "flashMessageSuccess", value: { message: "Létrehozás sikeres." } })
                 } else {
                     const msg = await response.json()
-                    dispatch({ type: "flashMessageWarning", value: msg.errors })
+                    dispatch({ type: "flashMessageWarning", value: { message: response.statusText } })
                 }
             }).catch(error => {
-                dispatch({ type: "flashMessageError", value: error.errors })
+                dispatch({ type: "flashMessageError", value: { message: response.statusText } })
             })
     }
 
@@ -75,10 +75,10 @@ function AuthorizationMenu(props) {
                     dispatch({ type: "flashMessageSuccess", value: { message: "Létrehozás sikeres." } })
                 } else {
                     const msg = await response.json()
-                    dispatch({ type: "flashMessageWarning", value: msg.errors })
+                    dispatch({ type: "flashMessageWarning", value: { message: response.statusText } })
                 }
             }).catch(error => {
-                dispatch({ type: "flashMessageError", value: error.errors })
+                dispatch({ type: "flashMessageError", value: { message: response.statusText } })
             })
     }
 
