@@ -18,7 +18,7 @@ function AdminAuthItem(props) {
     };
 
     return (
-        <tr id={`${authItem.id}-tr-${props.columnId}`} ref={setNodeRef} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600" key={`${authItem.id}TrKey`} style={style} {...attributes} {...listeners}>
+        <tr id={`${authItem.id}-tr-${props.columnId}`} ref={setNodeRef} className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 ${props.grabbing ? "cursor-grabbing" : "cursor-grab" }`} key={`${authItem.id}TrKey`} style={style} {...attributes} {...listeners}>
             <td id={`${authItem.id}Position`} className="px-6 py-4">
                 {authItem.position}
             </td>
