@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using jogosultsagigenylo.Server.Data;
 
@@ -10,9 +11,11 @@ using jogosultsagigenylo.Server.Data;
 namespace jogosultsagigenylo.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250212171448_Added Classes")]
+    partial class AddedClasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace jogosultsagigenylo.Server.Migrations
                     b.ToTable("AuthItems");
                 });
 
-            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Class", b =>
+            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Classes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,10 +67,6 @@ namespace jogosultsagigenylo.Server.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("ClassNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
