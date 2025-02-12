@@ -51,7 +51,7 @@ function Authorization() {
                     setIsLoading(false);
                 })
                 .catch(error => {
-                    dispatch({ type: "flashMessageError", action: error.errors });
+                    dispatch({ type: "flashMessageError", action: {message: error.errors} });
                 });
         }
     }, [isLoading]);
