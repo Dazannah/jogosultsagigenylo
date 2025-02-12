@@ -95,8 +95,6 @@ function Authorization() {
                     return column
                 })
 
-
-
                 const authItems = columns[columnIdx].authItems
 
                 await updateAuthItemOrder(authItems, columnId)
@@ -170,9 +168,9 @@ function Authorization() {
 
                     <DragOverlay >
                         {activeItem ?
-                            <table>
+                            <table className="w-full">
                                 <tbody>
-                                    <AdminAuthItem id={`${activeItem.id}-tr`} key={`admin-authItem-key-${activeItem.id}`} authItem={activeItem} columnId={activeItem.id} showDiv={() => { }} />
+                                    <AdminAuthItem id={`${activeItem.id}-tr`} key={`admin-authItem-key-${activeItem.id}`} authItem={activeItem} columnId={activeItem.id} showDiv={() => { }} grabbing={true} />
                                 </tbody>
                             </table>
                             : null}
