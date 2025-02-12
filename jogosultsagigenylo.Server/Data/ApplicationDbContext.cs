@@ -23,5 +23,6 @@ namespace jogosultsagigenylo.Server.Data {
 		public DbSet<AuthItem> AuthItems { get; set; }
 		public DbSet<Column> Columns { get; set; }
 		public DbSet<Status> Status { get; set; }
+		public DbSet<Class> Classes { get; set; }
 	}
 }
