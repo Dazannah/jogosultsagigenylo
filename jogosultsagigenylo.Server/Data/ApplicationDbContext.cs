@@ -24,5 +24,6 @@ namespace jogosultsagigenylo.Server.Data {
 		public DbSet<Column> Columns { get; set; }
 		public DbSet<Status> Status { get; set; }
 		public DbSet<Department> Departments { get; set; }
+		public DbSet<Location> Locations { get; set; }
 	}
 }
