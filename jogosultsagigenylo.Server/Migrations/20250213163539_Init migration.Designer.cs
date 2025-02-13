@@ -11,8 +11,8 @@ using jogosultsagigenylo.Server.Data;
 namespace jogosultsagigenylo.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250201110422_Statring_statuses")]
-    partial class Statring_statuses
+    [Migration("20250213163539_Init migration")]
+    partial class Initmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,10 +36,6 @@ namespace jogosultsagigenylo.Server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -70,9 +66,8 @@ namespace jogosultsagigenylo.Server.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
@@ -82,6 +77,35 @@ namespace jogosultsagigenylo.Server.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Columns");
+                });
+
+            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClassNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Status", b =>

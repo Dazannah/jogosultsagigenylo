@@ -51,7 +51,32 @@ namespace jogosultsagigenylo.Server.Migrations
                     b.ToTable("AuthItems");
                 });
 
-            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Class", b =>
+            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Column", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("Columns");
+                });
+
+            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,32 +102,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Classes");
-                });
-
-            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Column", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("Columns");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Status", b =>
