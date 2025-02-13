@@ -49,7 +49,7 @@ function AdminMenu() {
                             <Link id="/admin/authorization" to="/admin/authorization" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Jogosultságok
                             </Link>
-                            <Link id="/admin/classes" to="/admin/classes" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
+                            <Link id="/admin/departments" to="/admin/departments" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Osztályok
                             </Link>
                             <Link id="/admin/locations" to="/admin/locations" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
