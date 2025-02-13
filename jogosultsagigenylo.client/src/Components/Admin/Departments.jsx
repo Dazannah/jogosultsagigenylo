@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import { useEffect, useState, useRef } from "react";
 
-import ClassesMenu from "./ClassesMenu"
+import DepartmentsMenu from "./DepartmentsMenu"
 import Container from "../Container";
 import Loading from "../Loading";
 import CssClasses from "../../CssClasses";
@@ -14,6 +14,7 @@ function Departments() {
     const title = "Osztályok"
     const [isLoading, setIsLoading] = useState(true)
     const [departments, setDepartments] = useState([])
+    const [locations, setLocations] = useState([])
 
     function showDiv(divId) {
         const div = document.getElementById(divId)
@@ -38,6 +39,7 @@ function Departments() {
                     }
                 })
                 .then(data => {
+                    setLocations(data.locations)
                     setDepartments(data.departments);
                     setIsLoading(false);
                 })
@@ -49,16 +51,16 @@ function Departments() {
 
     async function editClass(e) {
         e.preventDefault();
-        const classId = e.target.id.value;
+        const departmentId = e.target.id.value;
 
         const body = {
             classNumber: e.target.classNumber.value,
             displayName: e.target.displayName.value,
-            location: e.target.location.value,
+            locationId: e.target.locationId.value,
             category: e.target.category.value
         };
 
-        fetch(`/api/departments/edit/${classId}`, {
+        fetch(`/api/departments/edit/${departmentId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -100,27 +102,27 @@ function Departments() {
 
     }
 
-    function renderClasses() {
+    function renderDepartments() {
         if (departments.length === 0) return null
 
-        return departments.map(element => {
+        return departments.map(department => {
             return (
-                <tr id={`${element.id}`} className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600`} key={`${element.id}`}>
+                <tr id={`${department.id}`} className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600`} key={`${department.id}`}>
                     <td className="px-6 py-4">
-                        {element.classNumber}
+                        {department.classNumber}
                     </td>
                     <td className="px-6 py-4">
-                        <span>{element.displayName}</span>
+                        <span>{department.displayName}</span>
                     </td>
                     <td className="px-6 py-4">
-                        {element.location}
+                        {department.location.displayName}
                     </td>
                     <td className="px-6 py-4">
-                        {element.category}
+                        {department.category}
                     </td>
                     <td className="px-1 py-4">
                         <div className="flex place-content-end">
-                            <button id={`${element.id}EditButton`} onClick={() => showDiv(`edit-class-div-${element.id}`)} className="bg-transparent py-1 px-1 text-orange-500 text-sm transition-all dark:bg-gray-700 hover:cursor-pointer hover:underline">
+                            <button id={`${department.id}EditButton`} onClick={() => showDiv(`edit-class-div-${department.id}`)} className="bg-transparent py-1 px-1 text-orange-500 text-sm transition-all dark:bg-gray-700 hover:cursor-pointer hover:underline">
                                 Szerkesztés
                             </button>
                         </div>
@@ -147,25 +149,39 @@ function Departments() {
                                 <form ref={classFormRef} onSubmit={editClass} className="w-full max-w-5xl mx-auto p-5 shadow-md dark:bg-gray-800 rounded-b-lg">
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <input type="hidden" name="id" value={element.id}></input>
-                                        <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label className={`${CssClasses.label}`} htmlFor="classNumber">
                                                 Azonosító
                                             </label>
                                             <input name="classNumber" className={`${CssClasses.input}`} id="classNumber" autoComplete="off" type="text" placeholder="Azonosító" defaultValue={element.classNumber} required />
                                         </div>
-                                        <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label className={`${CssClasses.label}`} htmlFor="displayName">
                                                 Elnevezés
                                             </label>
                                             <input name="displayName" className={`${CssClasses.input}`} id="displayName" autoComplete="off" type="text" placeholder="Elnevezés" defaultValue={element.displayName} required />
                                         </div>
-                                        <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                            <label className={`${CssClasses.label}`} htmlFor="location">
+                                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                            <label className={`${CssClasses.label}`} htmlFor="locationId">
                                                 Helyszín
                                             </label>
-                                            <input name="location" className={`${CssClasses.input}`} id="location" autoComplete="off" type="text" placeholder="Helyszín" defaultValue={element.location} required />
+                                            <select name="locationId" key="add-auth-item-statuses" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
+                                                <option key={`add-department-choose`} value={element.location.id}>
+                                                    {element.location.displayName}
+                                                </option>
+                                                {
+                                                    locations.map(location => {
+                                                        if (element.location.id != location.id)
+                                                        return (
+                                                            <option key={`add-department-choose-${location.id}`} value={location.id}>
+                                                                {location.displayName}
+                                                            </option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
                                         </div>
-                                        <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label className={`${CssClasses.label}`} htmlFor="category">
                                                 Kategória
                                             </label>
@@ -192,7 +208,7 @@ function Departments() {
 
     return (
         <Container title={title}>
-            <ClassesMenu setIsLoading={setIsLoading} />
+            <DepartmentsMenu setIsLoading={setIsLoading} locations={locations} />
             <div className="shadow-sm w-fit mt-1 mx-auto break-words">
                 <table className="w-full text-sm text-left rtl:text-right">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
@@ -213,7 +229,7 @@ function Departments() {
                         </tr>
                     </thead>
                     <tbody>
-                        { renderClasses() }
+                        { renderDepartments() }
                     </tbody>
                 </table>
             </div>
