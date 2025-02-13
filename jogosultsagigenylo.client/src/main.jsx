@@ -63,7 +63,7 @@ function Main() {
 
                         <Route path="/admin" element={<AdminHome />} />
                         <Route path="/admin/authorization" element={<Authorization />} />
-                        <Route path="/admin/classes" element={<Departments />} />
+                        <Route path="/admin/departments" element={<Departments />} />
                         <Route path="/admin/locations" element={<Locations />} />
                         <Route path="/admin/requests" element={<Requests />} />
                         <Route path="/admin/users" element={<Users />} />
