@@ -8,7 +8,10 @@ namespace jogosultsagigenylo.Server.Models {
 		public int Id { get; set; }
 		public required string ClassNumber { get; set; }
 		public required string DisplayName { get; set; }
-		public required string Location { get; set; }
+
+		public required int LocationId { get; set; }
+		[ForeignKey("LocationId")]
+		public Location Location { get; set; }
 		public required string Category { get; set; }
 	}
 }
