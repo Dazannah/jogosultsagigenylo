@@ -94,7 +94,6 @@ namespace jogosultsagigenylo.Server.Controllers {
 			}
 		}
 
-		// POST: AuthItemController/Delete/5
 		[HttpDelete("delete/{id}")]
 		public async Task<IActionResult> Delete(int id) {
 			try {
