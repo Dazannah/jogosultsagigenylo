@@ -1,4 +1,5 @@
 ﻿using jogosultsagigenylo.Server.Data;
+using jogosultsagigenylo.Server.DTO;
 using jogosultsagigenylo.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,34 +17,42 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpGet("")]
 		public async Task<IActionResult> Index() {
 			var departments = await _context.Departments.ToListAsync();
+			var locations = await _context.Locations.ToListAsync();
 
-			return Json(new { departments });
-		}
-
-		public ActionResult Details(int id) {
-			return View();
+			return Json(new { departments, locations });
 		}
 
 		[HttpPost("create")]
-		public async Task<IActionResult> Create([FromBody] Department newClass) {
-			_context.Departments.Add(newClass);
-			await _context.SaveChangesAsync();
+		public async Task<IActionResult> Create([FromBody] DepartmentDTO departmentDTO) {
+			try {
+				var newDepartment = new Department {
+					Category = departmentDTO.Category,
+					DisplayName = departmentDTO.DisplayName,
+					ClassNumber = departmentDTO.ClassNumber,
+					LocationId = departmentDTO.LocationId
+				};
 
-			return Ok(new { message = "Osztály sikeresen létrehozva" });
+				_context.Departments.Add(newDepartment);
+				await _context.SaveChangesAsync();
+
+				return Ok(new { message = "Osztály sikeresen létrehozva" });
+			} catch(Exception err) {
+				return BadRequest(new { error = err.Message });
+			}
 		}
 
 		[HttpPatch("edit/{id}")]
-		public async Task<IActionResult> Edit(int id, Department classNewDatas) {
+		public async Task<IActionResult> Edit(int id, DepartmentDTO departmentDTO) {
 			try {
 				ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id, "Id megadása kötelező.");
 
-				var classToEdit = await _context.Departments.FirstOrDefaultAsync(c => c.Id == id)
+				var departmentToEdit = await _context.Departments.FirstOrDefaultAsync(c => c.Id == id)
 					?? throw new KeyNotFoundException($"Osztály {id} id-val nem található.");
 
-				classToEdit.ClassNumber = classNewDatas.ClassNumber;
-				classToEdit.Location = classNewDatas.Location;
-				classToEdit.Category = classNewDatas.Category;
-				classToEdit.DisplayName = classNewDatas.DisplayName;
+				departmentToEdit.ClassNumber = departmentDTO.ClassNumber;
+				departmentToEdit.LocationId = departmentDTO.LocationId;
+				departmentToEdit.Category = departmentDTO.Category;
+				departmentToEdit.DisplayName = departmentDTO.DisplayName;
 
 				await _context.SaveChangesAsync();
 
@@ -55,8 +64,6 @@ namespace jogosultsagigenylo.Server.Controllers {
 			} catch(Exception err) {
 				return BadRequest(new { message = err.Message });
 			}
-
-
 		}
 
 		[HttpDelete("delete/{id}")]
