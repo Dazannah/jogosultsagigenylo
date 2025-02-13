@@ -52,6 +52,12 @@ function AdminMenu() {
                             <Link id="/admin/classes" to="/admin/classes" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Osztályok
                             </Link>
+                            <Link id="/admin/locations" to="/admin/locations" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
+                                Helyszínek
+                            </Link>
+                            <Link id="/admin/requests" to="/admin/requests" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
+                                Kérelmek
+                            </Link>
                             <Link id="/admin/users" to="/admin/users" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Felhasználók
                             </Link>

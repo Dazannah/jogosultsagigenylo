@@ -12,12 +12,15 @@ import NewUser from "./Components/NewUser"
 import AdminMenu from "./Components/Admin/AdminMenu"
 import AdminHome from "./Components/Admin/AdminHome"
 import Authorization from "./Components/Admin/Authorization"
-import Classes from "./Components/Admin/Classes"
+import Departments from "./Components/Admin/Departments"
+import Locations from "./Components/Admin/Locations"
+import Requests from "./Components/Admin/Requests"
+import Users from "./Components/Admin/Users";
 
 import FlashMessagesSuccess from "./Components/FlashMessages/FlashMessagesSuccess.jsx";
 import FlashMessagesWarning from "./components/flashMessages/FlashMessagesWarrning.jsx";
 import FlashMessagesError from "./components/flashMessages/FlashMessagesError.jsx";
-import Users from "./Components/Admin/Users";
+
 
 const AppContext = React.createContext()
 const DispatchContext = React.createContext()
@@ -60,7 +63,9 @@ function Main() {
 
                         <Route path="/admin" element={<AdminHome />} />
                         <Route path="/admin/authorization" element={<Authorization />} />
-                        <Route path="/admin/classes" element={<Classes />} />
+                        <Route path="/admin/classes" element={<Departments />} />
+                        <Route path="/admin/locations" element={<Locations />} />
+                        <Route path="/admin/requests" element={<Requests />} />
                         <Route path="/admin/users" element={<Users />} />
                     </Routes>
                 </BrowserRouter>

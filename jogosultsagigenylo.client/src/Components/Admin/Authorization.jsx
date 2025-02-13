@@ -114,7 +114,7 @@ function Authorization() {
         })
             .then(async response => {
                 if (response.ok) {
-                    dispatch({ type: "flashMessageSuccess", value: { message: "AuthSorrend mentve." } });
+                    dispatch({ type: "flashMessageSuccess", value: { message: "Sorrend mentve." } });
                 } else {
                     dispatch({ type: "flashMessageWarning", value: { message: response.statusText } });
                 }

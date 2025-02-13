@@ -7,13 +7,13 @@ import Loading from "../Loading";
 import CssClasses from "../../CssClasses";
 
 import { DispatchContext } from "../../main";
-function Classes() {
+function Departments() {
     const dispatch = React.useContext(DispatchContext);
     const classFormRef = useRef();
 
     const title = "Osztályok"
     const [isLoading, setIsLoading] = useState(true)
-    const [classes, setCalsses] = useState([])
+    const [departments, setDepartments] = useState([])
 
     function showDiv(divId) {
         const div = document.getElementById(divId)
@@ -29,7 +29,7 @@ function Classes() {
 
     useEffect(() => {
         if (isLoading) {
-            fetch("/api/classes")
+            fetch("/api/departments")
                 .then(response => {
                     if (response.ok) {
                         return response.json()
@@ -38,7 +38,7 @@ function Classes() {
                     }
                 })
                 .then(data => {
-                    setCalsses(data.classes);
+                    setDepartments(data.departments);
                     setIsLoading(false);
                 })
                 .catch(error => {
@@ -58,7 +58,7 @@ function Classes() {
             category: e.target.category.value
         };
 
-        fetch(`/api/classes/edit/${classId}`, {
+        fetch(`/api/departments/edit/${classId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -80,7 +80,7 @@ function Classes() {
 
     async function deleteClass(classDisplayName, id) {
         if (confirm(`Ezzel törlöd mindenhonnan a/az ${classDisplayName} osztályt`)) {
-            fetch(`/api/classes/delete/${id}`, {
+            fetch(`/api/departments/delete/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
@@ -101,9 +101,9 @@ function Classes() {
     }
 
     function renderClasses() {
-        if (classes.length === 0) return null
+        if (departments.length === 0) return null
 
-        return classes.map(element => {
+        return departments.map(element => {
             return (
                 <tr id={`${element.id}`} className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600`} key={`${element.id}`}>
                     <td className="px-6 py-4">
@@ -131,7 +131,7 @@ function Classes() {
     }
 
     function renderEdit() {
-            return classes.map(element => {
+            return departments.map(element => {
                 return (
                     <div id={`edit-class-div-${element.id}`} key={`edit-auth-item-key-${element.id}`} className="fixed top-0 left-0 w-screen h-screen flex items-center bg-gray-500/50 hidden">
                         <Container>
@@ -222,4 +222,4 @@ function Classes() {
   );
 }
 
-export default Classes;
+export default Departments;

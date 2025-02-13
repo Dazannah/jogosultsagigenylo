@@ -6,41 +6,38 @@ using Microsoft.EntityFrameworkCore;
 namespace jogosultsagigenylo.Server.Controllers {
 	[ApiController]
 	[Route("api/[controller]")]
-	public class ClassesController : Controller {
+	public class DepartmentsController : Controller {
 		private readonly ApplicationDbContext _context;
 
-		public ClassesController(ApplicationDbContext context) {
+		public DepartmentsController(ApplicationDbContext context) {
 			_context = context;
 		}
 
 		[HttpGet("")]
 		public async Task<IActionResult> Index() {
-			var classes = await _context.Classes.ToListAsync();
+			var departments = await _context.Departments.ToListAsync();
 
-			return Json(new { classes });
+			return Json(new { departments });
 		}
 
-		// GET: ClassesController/Details/5
 		public ActionResult Details(int id) {
 			return View();
 		}
 
-		// POST: ClassesController/Create
 		[HttpPost("create")]
-		public async Task<IActionResult> Create([FromBody] Class newClass) {
-			_context.Classes.Add(newClass);
+		public async Task<IActionResult> Create([FromBody] Department newClass) {
+			_context.Departments.Add(newClass);
 			await _context.SaveChangesAsync();
 
 			return Ok(new { message = "Osztály sikeresen létrehozva" });
 		}
 
-		// POST: ClassesController/Edit/5
 		[HttpPatch("edit/{id}")]
-		public async Task<IActionResult> Edit(int id, Class classNewDatas) {
+		public async Task<IActionResult> Edit(int id, Department classNewDatas) {
 			try {
 				ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id, "Id megadása kötelező.");
 
-				var classToEdit = await _context.Classes.FirstOrDefaultAsync(c => c.Id == id)
+				var classToEdit = await _context.Departments.FirstOrDefaultAsync(c => c.Id == id)
 					?? throw new KeyNotFoundException($"Osztály {id} id-val nem található.");
 
 				classToEdit.ClassNumber = classNewDatas.ClassNumber;
@@ -62,13 +59,12 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 		}
 
-		// POST: ClassesController/Delete/5
 		[HttpDelete("delete/{id}")]
 		public async Task<IActionResult> Delete(int id) {
 			try {
 				ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id, "Id megadása kötelező.");
 
-				var deleted = await _context.Classes.Where(c => c.Id == id).ExecuteDeleteAsync();
+				var deleted = await _context.Departments.Where(c => c.Id == id).ExecuteDeleteAsync();
 
 				if(deleted == 0)
 					return NotFound(new { error = $"Nem található osztály {id} id-val." });
