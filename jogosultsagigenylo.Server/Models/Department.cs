@@ -12,8 +12,6 @@ namespace jogosultsagigenylo.Server.Models {
 		public required int LocationId { get; set; }
 		[ForeignKey("LocationId")]
 		public Location Location { get; set; }
-		public required int CategoryId { get; set; }
-		[ForeignKey("CategoryId")]
-		public Category Category { get; set; }
+		public required string Category { get; set; }
 	}
 }

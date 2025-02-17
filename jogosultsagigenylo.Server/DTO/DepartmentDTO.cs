@@ -15,7 +15,7 @@ namespace jogosultsagigenylo.Server.DTO {
 		[ForeignKey("LocationId")]
 		public Location? Location { get; set; }
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Kategória nem megfelelő.")]
-		public required int CategoryId { get; set; }
+		public required string Category { get; set; }
 	}
 }
 

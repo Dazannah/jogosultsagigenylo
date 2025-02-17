@@ -46,7 +46,7 @@ namespace jogosultsagigenylo.Server.Controllers {
 					ColumnId = authItemDTO.ColumnId,
 					Column = column,
 					Status = status,
-					Position = ++lastInColumn ?? 1
+					Position = ++lastInColumn ?? 0
 				};
 
 				_context.AuthItems.Add(authItem);

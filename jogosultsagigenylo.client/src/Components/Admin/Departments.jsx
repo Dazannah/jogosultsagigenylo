@@ -15,7 +15,6 @@ function Departments() {
     const [isLoading, setIsLoading] = useState(true)
     const [departments, setDepartments] = useState([])
     const [locations, setLocations] = useState([])
-    const [categories, setCategories] = useState([])
 
     function showDiv(divId) {
         const div = document.getElementById(divId)
@@ -42,8 +41,6 @@ function Departments() {
                 .then(data => {
                     setLocations(data.locations)
                     setDepartments(data.departments);
-                    setCategories(data.categories);
-
                     setIsLoading(false);
                 })
                 .catch(error => {
@@ -60,7 +57,7 @@ function Departments() {
             classNumber: e.target.classNumber.value,
             displayName: e.target.displayName.value,
             locationId: e.target.locationId.value,
-            categoryId: e.target.categoryId.value
+            category: e.target.category.value
         };
 
         fetch(`/api/departments/edit/${departmentId}`, {
@@ -121,7 +118,7 @@ function Departments() {
                         {department.location.displayName}
                     </td>
                     <td className="px-6 py-4">
-                        {department.category.displayName}
+                        {department.category}
                     </td>
                     <td className="px-1 py-4">
                         <div className="flex place-content-end">
@@ -188,19 +185,7 @@ function Departments() {
                                             <label className={`${CssClasses.label}`} htmlFor="category">
                                                 Kategória
                                             </label>
-                                            <select name="categoryId" key="add-category" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
-                                                <option key={`add-category-choose`} value={element.category.id }>{element.category.displayName}</option>
-                                                {
-                                                    categories.map(category => {
-                                                        if (element.category.id != category.id)
-                                                        return (
-                                                            <option key={`add-category-choose-${category.id}`} value={category.id}>
-                                                                {category.displayName}
-                                                            </option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
+                                            <input name="category" className={`${CssClasses.input}`} id="category" autoComplete="off" type="text" placeholder="Kategória" defaultValue={element.category} required />
                                         </div>
                                     </div>
                                     <div className="md:w-2/3">
@@ -223,7 +208,7 @@ function Departments() {
 
     return (
         <Container title={title}>
-            <DepartmentsMenu setIsLoading={setIsLoading} locations={locations} categories={categories} />
+            <DepartmentsMenu setIsLoading={setIsLoading} locations={locations} />
             <div className="shadow-sm w-fit mt-1 mx-auto break-words">
                 <table className="w-full text-sm text-left rtl:text-right">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">

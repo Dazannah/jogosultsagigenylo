@@ -18,16 +18,15 @@ namespace jogosultsagigenylo.Server.Controllers {
 		public async Task<IActionResult> Index() {
 			var departments = await _context.Departments.ToListAsync();
 			var locations = await _context.Locations.ToListAsync();
-			var categories = await _context.Categories.ToListAsync();
 
-			return Json(new { departments, locations, categories });
+			return Json(new { departments, locations });
 		}
 
 		[HttpPost("create")]
 		public async Task<IActionResult> Create([FromBody] DepartmentDTO departmentDTO) {
 			try {
 				var newDepartment = new Department {
-					CategoryId = departmentDTO.CategoryId,
+					Category = departmentDTO.Category,
 					DisplayName = departmentDTO.DisplayName,
 					ClassNumber = departmentDTO.ClassNumber,
 					LocationId = departmentDTO.LocationId
@@ -52,7 +51,7 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				departmentToEdit.ClassNumber = departmentDTO.ClassNumber;
 				departmentToEdit.LocationId = departmentDTO.LocationId;
-				departmentToEdit.CategoryId = departmentDTO.CategoryId;
+				departmentToEdit.Category = departmentDTO.Category;
 				departmentToEdit.DisplayName = departmentDTO.DisplayName;
 
 				await _context.SaveChangesAsync();

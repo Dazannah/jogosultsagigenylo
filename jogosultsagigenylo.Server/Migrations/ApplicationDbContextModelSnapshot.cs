@@ -51,23 +51,6 @@ namespace jogosultsagigenylo.Server.Migrations
                     b.ToTable("AuthItems");
                 });
 
-            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Column", b =>
                 {
                     b.Property<int>("Id")
@@ -101,8 +84,9 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClassNumber")
                         .IsRequired()
@@ -116,8 +100,6 @@ namespace jogosultsagigenylo.Server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("LocationId");
 
@@ -211,19 +193,11 @@ namespace jogosultsagigenylo.Server.Migrations
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Department", b =>
                 {
-                    b.HasOne("jogosultsagigenylo.Server.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("jogosultsagigenylo.Server.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("Location");
                 });
