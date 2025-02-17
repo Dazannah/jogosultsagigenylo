@@ -23,7 +23,7 @@ import {
 
 import Container from "../Container";
 import Loading from "../Loading";
-import AuthorizationMenu from "./AuthorizationMenu";
+import AuthorizationsMenu from "./AuthorizationsMenu";
 import AdminColumn from "./AdminIncludes/AdminColumn"
 import AdminAuthItem from "./AdminIncludes/AdminAuthItem"
 
@@ -152,7 +152,7 @@ function Authorization() {
 
     return (
         <Container title={title}>
-            <AuthorizationMenu columns={columns} statuses={statuses} setIsLoading={setIsLoading} />
+            <AuthorizationsMenu columns={columns} statuses={statuses} setIsLoading={setIsLoading} />
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} >
                 <div className="flex flex-wrap">
 
