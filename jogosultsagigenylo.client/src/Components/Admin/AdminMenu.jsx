@@ -46,14 +46,20 @@ function AdminMenu() {
 
                     <div className="items-center bg-transparent justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
                         <div className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                            <Link id="/admin/authorization" to="/admin/authorization" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
+                            <Link id="/admin/authorizations" to="/admin/authorizations" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Jogosultságok
+                            </Link>
+                            <Link id="/admin/sub-authorizations" to="/admin/sub-authorizations" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
+                                Aljogosultságok
                             </Link>
                             <Link id="/admin/departments" to="/admin/departments" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Osztályok
                             </Link>
                             <Link id="/admin/locations" to="/admin/locations" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Helyszínek
+                            </Link>
+                            <Link id="/admin/categories" to="/admin/categories" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
+                                Kategóriák
                             </Link>
                             <Link id="/admin/requests" to="/admin/requests" onClick={e => setActive(e.target.id)} className="block py-2 px-3 hover:text-teal-700 md:p-0 dark:text-white dark:border-gray-700">
                                 Kérelmek

@@ -27,7 +27,7 @@ function DepartmentsMenu(props) {
             classNumber: e.target.classNumber.value,
             displayName: e.target.displayName.value,
             locationId: e.target.locationId.value,
-            category: e.target.category.value
+            categoryId: e.target.categoryId.value
         }
 
         fetch("/api/departments/create", {
@@ -101,7 +101,20 @@ function DepartmentsMenu(props) {
                                     <label className={`${CssClasses.label}`} htmlFor="category">
                                   Kategória
                               </label>
-                                    <input name="category" className={`${CssClasses.input}`} id="category" autoComplete="off" type="text" placeholder="Kategória" required />
+                                    <select name="categoryId" key="add-category" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
+                                        <option key={`add-category-choose`} value="">
+                                            Válassz egy helyszínt
+                                        </option>
+                                        {
+                                            props.categories.map(category => {
+                                                return (
+                                                    <option key={`add-category-choose-${category.id}`} value={category.id}>
+                                                        {category.displayName}
+                                                    </option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                           </div>
                       </div>
                       <div className="md:w-2/3">
