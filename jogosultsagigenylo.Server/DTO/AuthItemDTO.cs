@@ -1,5 +1,6 @@
 ﻿using jogosultsagigenylo.Server.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace jogosultsagigenylo.Server.DTO {
 	public class AuthItemDTO {
@@ -11,6 +12,9 @@ namespace jogosultsagigenylo.Server.DTO {
 		public int StatusId { get; set; }
 		public Status? Status { get; set; }
 		[Range(1, int.MaxValue, ErrorMessage = "Hibás oszlop id.")]
+		public int CategoryId { get; set; }
+		[ForeignKey("CategoryId")]
+		public Category? Category { get; set; }
 		public int ColumnId { get; set; }
 		public string? Column { get; set; }
 		public int Position { get; set; }

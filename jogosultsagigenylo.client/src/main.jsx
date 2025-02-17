@@ -11,9 +11,11 @@ import NewUser from "./Components/NewUser"
 
 import AdminMenu from "./Components/Admin/AdminMenu"
 import AdminHome from "./Components/Admin/AdminHome"
-import Authorization from "./Components/Admin/Authorization"
+import Authorizations from "./Components/Admin/Authorizations"
+import SubAuthorizations from "./Components/Admin/SubAuthorizations"
 import Departments from "./Components/Admin/Departments"
 import Locations from "./Components/Admin/Locations"
+import Categories from "./Components/Admin/Categories"
 import Requests from "./Components/Admin/Requests"
 import Users from "./Components/Admin/Users";
 
@@ -62,9 +64,11 @@ function Main() {
                         <Route path="/new-user" element={<NewUser />} />
 
                         <Route path="/admin" element={<AdminHome />} />
-                        <Route path="/admin/authorization" element={<Authorization />} />
+                        <Route path="/admin/authorizations" element={<Authorizations />} />
+                        <Route path="/admin/sub-authorizations" element={<SubAuthorizations />} />
                         <Route path="/admin/departments" element={<Departments />} />
                         <Route path="/admin/locations" element={<Locations />} />
+                        <Route path="/admin/categories" element={<Categories />} />
                         <Route path="/admin/requests" element={<Requests />} />
                         <Route path="/admin/users" element={<Users />} />
                     </Routes>

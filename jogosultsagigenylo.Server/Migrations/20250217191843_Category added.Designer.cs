@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using jogosultsagigenylo.Server.Data;
 
@@ -10,9 +11,11 @@ using jogosultsagigenylo.Server.Data;
 namespace jogosultsagigenylo.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250217191843_Category added")]
+    partial class Categoryadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +32,9 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ColumnId")
                         .HasColumnType("int");
 
@@ -43,6 +49,8 @@ namespace jogosultsagigenylo.Server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("ColumnId");
 
@@ -101,8 +109,9 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClassNumber")
                         .IsRequired()
@@ -116,8 +125,6 @@ namespace jogosultsagigenylo.Server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("LocationId");
 
@@ -181,6 +188,12 @@ namespace jogosultsagigenylo.Server.Migrations
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.AuthItem", b =>
                 {
+                    b.HasOne("jogosultsagigenylo.Server.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("jogosultsagigenylo.Server.Models.Column", "Column")
                         .WithMany("AuthItems")
                         .HasForeignKey("ColumnId")
@@ -192,6 +205,8 @@ namespace jogosultsagigenylo.Server.Migrations
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Column");
 
@@ -211,19 +226,11 @@ namespace jogosultsagigenylo.Server.Migrations
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Department", b =>
                 {
-                    b.HasOne("jogosultsagigenylo.Server.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("jogosultsagigenylo.Server.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("Location");
                 });
