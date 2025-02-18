@@ -24,7 +24,7 @@ function DepartmentsMenu(props) {
         e.preventDefault()
 
         const body = {
-            classNumber: e.target.classNumber.value,
+            departmentNumber: e.target.departmentNumber.value,
             displayName: e.target.displayName.value,
             locationId: e.target.locationId.value,
             categoryId: e.target.categoryId.value
@@ -38,7 +38,6 @@ function DepartmentsMenu(props) {
             body: JSON.stringify(body)
         })
             .then(async response => {
-                console.log(response)
                 if (response.ok) {
                     props.setIsLoading(true)
                     dispatch({ type: "flashMessageSuccess", value: { message: "Létrehozás sikeres." } })
@@ -67,10 +66,10 @@ function DepartmentsMenu(props) {
                   <form ref={classFormRef} onSubmit={createDepartment} className="w-full max-w-2xl mx-auto p-5 shadow-md dark:bg-gray-800 rounded-b-lg">
                             <div className="flex flex-wrap -mx-3 mb-6">
                                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label className={`${CssClasses.label}`} htmlFor="classNumber">
+                                    <label className={`${CssClasses.label}`} htmlFor="departmentNumber">
                                         Azonosító
                                     </label>
-                                    <input name="classNumber" className={`${CssClasses.input}`} id="classNumber" autoComplete="off" type="text" placeholder="Azonosító" required />
+                                    <input name="departmentNumber" className={`${CssClasses.input}`} id="departmentNumber" autoComplete="off" type="text" placeholder="Azonosító" />
                                 </div>
                           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                               <label className={`${CssClasses.label}`} htmlFor="displayName">
