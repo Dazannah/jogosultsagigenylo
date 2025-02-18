@@ -9,7 +9,6 @@ import { DispatchContext } from "../../main";
 function Categories() {
     const dispatch = React.useContext(DispatchContext);
 
-    const title = "Kategóriák"
     const [isLoading, setIsLoading] = useState(true)
     const [categories, setCategories] = useState([])
 
@@ -156,10 +155,10 @@ function Categories() {
         })
     }
 
-    if (isLoading) return <Loading title={title } />
+    if (isLoading) return <Loading />
 
     return (
-        <Container title={title}>
+        <Container>
             <CategoriesMenu setIsLoading={setIsLoading} />
             <div className="shadow-sm w-fit mt-1 mx-auto break-words">
                 <table className="w-full text-sm text-left rtl:text-right">
