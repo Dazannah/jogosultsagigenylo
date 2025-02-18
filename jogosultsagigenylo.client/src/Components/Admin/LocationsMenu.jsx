@@ -50,14 +50,14 @@ function LocationsMenu(props) {
 
   return (
       <>
-          <div id="add-class-div" key="add-class-div-key" className="fixed top-0 left-0 w-screen h-screen flex items-center bg-gray-500/50 hidden">
+          <div id="add-location-div" key="add-class-div-key" className="fixed top-0 left-0 w-screen h-screen flex items-center bg-gray-500/50 hidden">
               <Container>
                   <div className="bg-white w-fit m-auto rounded-lg dark:bg-gray-800 dark:text-gray-300">
                       <div className="flex font-semibold text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-300 rounded-t-lg">
                           <div className="flex md:w-1/2 place-content-start p-2"><span>Helyszín hozzáadása</span></div>
                           <div className="flex md:w-1/2 place-content-end p-2">
 
-                              <svg onClick={() => hideDiv("add-class-div")} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 hover:cursor-pointer">
+                              <svg onClick={() => hideDiv("add-location-div")} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 hover:cursor-pointer">
                                   <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
                               </svg>
                           </div>
@@ -86,7 +86,7 @@ function LocationsMenu(props) {
                   </div>
               </Container>
           </div>
-          <button onClick={() => showDiv("add-class-div")} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 rounded-md border border-green-500 hover:border-transparent rounded hover:cursor-pointer">
+          <button onClick={() => showDiv("add-location-div")} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 rounded-md border border-green-500 hover:border-transparent rounded hover:cursor-pointer">
               Helyszín hozzáadása
           </button>
       </>

@@ -14,7 +14,6 @@ function Locations() {
 
     const [isLoading, setIsLoading] = useState(true)
     const [locations, setLocations] = useState([])
-    const title = "Helyszínek"
 
     useEffect(() => {
         if (isLoading) {
@@ -167,10 +166,10 @@ function Locations() {
         })
     }
 
-    if (isLoading) return <Loading title={title} />
+    if (isLoading) return <Loading />
 
   return (
-      <Container title={title}>
+      <Container >
           <LocationsMenu setIsLoading={setIsLoading} />
           <div className="shadow-sm w-fit mt-1 mx-auto break-words">
               <table className="w-full text-sm text-left rtl:text-right">

@@ -2,7 +2,7 @@
 function Container(props) {
 
     useEffect(() => {
-        document.title = `${props?.title}`
+        if (props.title) document.title = `${props?.title}`
     }, [])
 
     return (
