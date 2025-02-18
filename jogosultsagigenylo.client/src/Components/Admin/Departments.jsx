@@ -57,7 +57,7 @@ function Departments() {
         const departmentId = e.target.id.value;
 
         const body = {
-            classNumber: e.target.classNumber.value,
+            departmentNumber: e.target.departmentNumber.value,
             displayName: e.target.displayName.value,
             locationId: e.target.locationId.value,
             categoryId: e.target.categoryId.value
@@ -112,7 +112,7 @@ function Departments() {
             return (
                 <tr id={`${department.id}`} className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600`} key={`${department.id}`}>
                     <td className="px-6 py-4">
-                        {department.classNumber}
+                        {department.departmentNumber}
                     </td>
                     <td className="px-6 py-4">
                         <span>{department.displayName}</span>
@@ -153,10 +153,10 @@ function Departments() {
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <input type="hidden" name="id" value={element.id}></input>
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                            <label className={`${CssClasses.label}`} htmlFor="classNumber">
+                                            <label className={`${CssClasses.label}`} htmlFor="departmentNumber">
                                                 Azonosító
                                             </label>
-                                            <input name="classNumber" className={`${CssClasses.input}`} id="classNumber" autoComplete="off" type="text" placeholder="Azonosító" defaultValue={element.classNumber} required />
+                                            <input name="departmentNumber" className={`${CssClasses.input}`} id="departmentNumber" autoComplete="off" type="text" placeholder="Azonosító" defaultValue={element.departmentNumber} required />
                                         </div>
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label className={`${CssClasses.label}`} htmlFor="displayName">

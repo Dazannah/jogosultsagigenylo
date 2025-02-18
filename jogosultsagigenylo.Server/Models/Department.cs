@@ -6,7 +6,7 @@ namespace jogosultsagigenylo.Server.Models {
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
-		public required string ClassNumber { get; set; }
+		public string? DepartmentNumber { get; set; }
 		public required string DisplayName { get; set; }
 
 		public required int LocationId { get; set; }
