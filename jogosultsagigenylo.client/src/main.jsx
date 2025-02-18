@@ -14,6 +14,7 @@ import AdminHome from "./Components/Admin/AdminHome"
 import Authorizations from "./Components/Admin/Authorizations"
 import SubAuthorizations from "./Components/Admin/SubAuthorizations"
 import Departments from "./Components/Admin/Departments"
+import LocationsCategories from "./Components/Admin/LocationsCategories"
 import Locations from "./Components/Admin/Locations"
 import Categories from "./Components/Admin/Categories"
 import Requests from "./Components/Admin/Requests"
@@ -67,6 +68,7 @@ function Main() {
                         <Route path="/admin/authorizations" element={<Authorizations />} />
                         <Route path="/admin/sub-authorizations" element={<SubAuthorizations />} />
                         <Route path="/admin/departments" element={<Departments />} />
+                        <Route path="/admin/locations-categories" element={<LocationsCategories />} />
                         <Route path="/admin/locations" element={<Locations />} />
                         <Route path="/admin/categories" element={<Categories />} />
                         <Route path="/admin/requests" element={<Requests />} />
