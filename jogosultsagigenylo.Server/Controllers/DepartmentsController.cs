@@ -1,13 +1,14 @@
 ﻿using jogosultsagigenylo.Server.Data;
 using jogosultsagigenylo.Server.DTO;
 using jogosultsagigenylo.Server.Models;
+using jogosultsagigenylo.Server.SearchModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace jogosultsagigenylo.Server.Controllers {
-	[ApiController]
+	[Controller]
 	[Route("api/[controller]")]
-	public class DepartmentsController : Controller {
+	public class DepartmentsController : ControllerBase {
 		private readonly ApplicationDbContext _context;
 
 		public DepartmentsController(ApplicationDbContext context) {
@@ -15,12 +16,24 @@ namespace jogosultsagigenylo.Server.Controllers {
 		}
 
 		[HttpGet("")]
-		public async Task<IActionResult> Index() {
-			var departments = await _context.Departments.ToListAsync();
-			var locations = await _context.Locations.ToListAsync();
-			var categories = await _context.Categories.ToListAsync();
+		public async Task<IActionResult> Index([FromQuery] DepartmentQuerry departmentQuerry) {
+			try {
+				var numOfSkips = (departmentQuerry.Page - 1) * departmentQuerry.ItemsOnPage;
 
-			return Json(new { departments, locations, categories });
+				var departments = await _context.Departments
+					.OrderBy(d => d.DisplayName)
+					.ThenBy(d => d.Location.DisplayName)
+					.Skip(numOfSkips)
+					.Take(departmentQuerry.ItemsOnPage)
+					.ToListAsync();
+
+				var locations = await _context.Locations.ToListAsync();
+				var categories = await _context.Categories.ToListAsync();
+
+				return new JsonResult(new { departments, locations, categories });
+			} catch(Exception err) {
+				return BadRequest(new { error = err.Message });
+			}
 		}
 
 		[HttpPost("create")]
@@ -29,7 +42,7 @@ namespace jogosultsagigenylo.Server.Controllers {
 				var newDepartment = new Department {
 					CategoryId = departmentDTO.CategoryId,
 					DisplayName = departmentDTO.DisplayName,
-					ClassNumber = departmentDTO.ClassNumber,
+					DepartmentNumber = departmentDTO.DepartmentNumber,
 					LocationId = departmentDTO.LocationId
 				};
 
@@ -50,7 +63,7 @@ namespace jogosultsagigenylo.Server.Controllers {
 				var departmentToEdit = await _context.Departments.FirstOrDefaultAsync(c => c.Id == id)
 					?? throw new KeyNotFoundException($"Osztály {id} id-val nem található.");
 
-				departmentToEdit.ClassNumber = departmentDTO.ClassNumber;
+				departmentToEdit.DepartmentNumber = departmentDTO.DepartmentNumber;
 				departmentToEdit.LocationId = departmentDTO.LocationId;
 				departmentToEdit.CategoryId = departmentDTO.CategoryId;
 				departmentToEdit.DisplayName = departmentDTO.DisplayName;
