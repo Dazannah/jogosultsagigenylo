@@ -110,7 +110,7 @@ function Locations() {
                     </td>
                     <td className="px-1 py-4">
                         <div className="flex place-content-end">
-                            <button id={`${location.id}EditButton`} onClick={() => showDiv(`edit-class-div-${location.id}`)} className="bg-transparent py-1 px-1 text-orange-500 text-sm transition-all dark:bg-gray-700 hover:cursor-pointer hover:underline">
+                            <button id={`${location.id}EditButton`} onClick={() => showDiv(`edit-class-div-${location.id}`)} className="bg-transparent py-1 px-1 text-orange-500 text-sm transition-all hover:cursor-pointer hover:underline">
                                 Szerkesztés
                             </button>
                         </div>

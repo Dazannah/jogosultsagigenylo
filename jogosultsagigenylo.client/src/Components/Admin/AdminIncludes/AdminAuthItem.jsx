@@ -30,7 +30,7 @@ function AdminAuthItem(props) {
             <td className="px-6 py-4">{authItem.status.displayName}</td>
             <td className="px-1 py-4">
                 <div className="flex place-content-end">
-                    <button id={`${authItem.id}EditButton`} onClick={() => props.showDiv(`edit-auth-item-div-${authItem.id}`)} className="bg-transparent py-1 px-1 text-orange-500 text-sm transition-all dark:bg-gray-700 hover:cursor-pointer hover:underline">
+                    <button id={`${authItem.id}EditButton`} onClick={() => props.showDiv(`edit-auth-item-div-${authItem.id}`)} className="bg-transparent py-1 px-1 text-orange-500 text-sm transition-all hover:cursor-pointer hover:underline">
                         Szerkesztés
                     </button>
                 </div>

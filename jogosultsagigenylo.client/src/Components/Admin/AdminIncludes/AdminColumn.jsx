@@ -172,7 +172,7 @@ function AdminColumn(props) {
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         <div className="flex place-content-end">
-                                            <button onClick={() => showDiv(`edit-column-${column.id}-div`)} className="rounded-md bg-transparent py-1 px-1 border border-orange-500 text-orange-500 text-sm transition-all shadow-md dark:bg-gray-700 hover:text-white hover:bg-orange-500 hover:cursor-pointer hover:shadow-lg focus:shadow-none active:shadow-none">
+                                            <button onClick={() => showDiv(`edit-column-${column.id}-div`)} className="rounded-md bg-transparent py-1 px-1 border border-orange-500 text-orange-500 text-sm transition-all shadow-md hover:text-white hover:bg-orange-500 hover:cursor-pointer hover:shadow-lg focus:shadow-none active:shadow-none">
                                                 Szerkesztés
                                             </button>
                                         </div>

@@ -105,7 +105,7 @@ function Categories() {
                     </td>
                     <td className="px-1 py-4">
                         <div className="flex place-content-end">
-                            <button id={`${category.id}EditButton`} onClick={() => showDiv(`edit-category-div-${category.id}`)} className="bg-transparent py-1 px-1 text-orange-500 text-sm transition-all dark:bg-gray-700 hover:cursor-pointer hover:underline">
+                            <button id={`${category.id}EditButton`} onClick={() => showDiv(`edit-category-div-${category.id}`)} className="bg-transparent py-1 px-1 text-orange-500 text-sm transition-all hover:cursor-pointer hover:underline">
                                 Szerkesztés
                             </button>
                         </div>
