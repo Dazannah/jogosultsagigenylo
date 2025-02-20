@@ -21,16 +21,24 @@ namespace jogosultsagigenylo.Server.Controllers {
 				var numOfSkips = (departmentQuerry.Page - 1) * departmentQuerry.ItemsOnPage;
 
 				var departments = await _context.Departments
+					.Where(d => string.IsNullOrEmpty(departmentQuerry.DepartmentNumber) || d.DepartmentNumber == departmentQuerry.DepartmentNumber)
+					.Where(d => string.IsNullOrEmpty(departmentQuerry.DisplayName) || d.DisplayName == departmentQuerry.DisplayName)
+					.Where(d => departmentQuerry.LocationId.GetValueOrDefault(0) == 0 || d.LocationId == departmentQuerry.LocationId)
+					.Where(d => departmentQuerry.CategoryId.GetValueOrDefault(0) == 0 || d.CategoryId == departmentQuerry.CategoryId)
+					.ToListAsync();
+
+				var filteredDepartments = departments
 					.OrderBy(d => d.DisplayName)
 					.ThenBy(d => d.Location.DisplayName)
 					.Skip(numOfSkips)
-					.Take(departmentQuerry.ItemsOnPage)
-					.ToListAsync();
+					.Take(departmentQuerry.ItemsOnPage);
 
 				var locations = await _context.Locations.ToListAsync();
 				var categories = await _context.Categories.ToListAsync();
 
-				return new JsonResult(new { departments, locations, categories });
+				var maxPageNumber = departments != null ? departments.Count() / (double)departmentQuerry.ItemsOnPage : 10.0;
+
+				return new JsonResult(new { departments = filteredDepartments, locations, categories, maxPageNumber });
 			} catch(Exception err) {
 				return BadRequest(new { error = err.Message });
 			}
