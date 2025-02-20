@@ -214,13 +214,9 @@ function AdminColumn(props) {
                                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                                 <label className={`${CssClasses.label}`} htmlFor="statuses">
                                                     Státusz
-                                                </label>
-                                                <select name="statusId" key="add-auth-item-statuses" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
-                                                    <option key={`add-auth-item-statuses${column.status.id}`} value={column.status.id}>
-                                                        {column.status.displayName}
-                                                    </option>
+                                        </label>
+                                        <select defaultValue={column.status.id} name="statusId" key="add-auth-item-statuses" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
                                                     {statuses.map(status => {
-                                                        if (column.status.id != status.id)
                                                             return (
                                                                 <option key={`add-auth-item-statuses${status.id}`} value={status.id}>
                                                                     {status.displayName}
@@ -271,10 +267,8 @@ function AdminColumn(props) {
                                                             <label className={`${CssClasses.label}`} htmlFor="columns">
                                                                 Oszlop
                                                             </label>
-                                                            <select name="columnId" key="add-auth-item-classes" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="columns" required>
-                                                                <option value={column.id}>{column.displayName}</option>
+                                                            <select defaultValue={column.id} name="columnId" key="add-auth-item-classes" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="columns" required>
                                                                 {columns.map(selectColumn => {
-                                                                    if (selectColumn.id != column.id)
                                                                         return (
                                                                             <option key={`add-auth-item-columns${selectColumn.id}`} value={selectColumn.id}>
                                                                                 {selectColumn.displayName}
@@ -287,10 +281,9 @@ function AdminColumn(props) {
                                                             <label className={`${CssClasses.label}`} htmlFor="statuses">
                                                                 Státusz
                                                             </label>
-                                                            <select name="statusId" key="add-auth-item-statuses" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
+                                                            <select defaultValue={authItem.status.id} name="statusId" key="add-auth-item-statuses" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
                                                                 <option value={authItem.status.id}>{authItem.status.displayName}</option>
                                                                 {statuses.map(status => {
-                                                                    if (status.id != authItem.status.id)
                                                                         return (
                                                                             <option key={`add-auth-item-statuses${status.id}`} value={status.id}>
                                                                                 {status.displayName}
