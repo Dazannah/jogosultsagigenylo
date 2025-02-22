@@ -22,7 +22,7 @@ namespace jogosultsagigenylo.Server.Data {
 					new Location { Id = 2, DisplayName = "Hódmezővásárhely" },
 					new Location { Id = 3, DisplayName = "Kakasszék" },
 					new Location { Id = 4, DisplayName = "Központ" },
-					new Location { Id = 4, DisplayName = "Egyéb" }
+					new Location { Id = 5, DisplayName = "Egyéb" }
 				);
 
 			modelBuilder.Entity<Category>().HasData(
