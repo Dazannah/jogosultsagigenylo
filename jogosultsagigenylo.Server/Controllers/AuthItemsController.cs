@@ -3,7 +3,6 @@ using jogosultsagigenylo.Server.DTO;
 using jogosultsagigenylo.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 
 namespace jogosultsagigenylo.Server.Controllers {
 	[ApiController]
@@ -33,6 +32,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPost("create")]
 		public async Task<IActionResult> Create([FromBody] AuthItemDTO authItemDTO) {
 			try {
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
 				var column = await _context.Columns.FirstOrDefaultAsync(c => c.Id == authItemDTO.ColumnId)
 					?? throw new KeyNotFoundException($"Oszlop {authItemDTO.ColumnId} id-val nem található.");
 
@@ -63,6 +65,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPatch("edit/{id}")]
 		public async Task<IActionResult> Edit(int id, [FromBody] AuthItemDTO authItemDTO) {
 			try {
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
 				var allAuthItems = await _context.AuthItems
 					.Where(ai => ai.ColumnId == authItemDTO.ColumnId)
 					.ToListAsync();
@@ -115,21 +120,26 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPatch("update-order/{columnId}")]
 		public async Task<IActionResult> UpdateOrder(int columnId, [FromBody] List<AuthItemDTO> authItemDTOs) {
 			try {
-				Console.WriteLine("UpdateOrder");
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
 				var authItems = _context.AuthItems.Where(a => a.ColumnId == columnId)
 					?? throw new KeyNotFoundException($"Oszlop {columnId} id-val nem található.");
-				var positions = new Hashtable();
 
-				foreach(var authItemDTO in authItemDTOs) {
-					positions.Add($"{authItemDTO.Id}", authItemDTO.Position);
+				if(authItems != null) {
+					var positions = new Dictionary<int, int>();
+
+					foreach(var authItemDTO in authItemDTOs) {
+						positions.Add(authItemDTO.Id, authItemDTO.Position);
+					}
+
+					foreach(var authItem in authItems) {
+						authItem.Position = positions[authItem.Id];
+					}
+
+					_context.AuthItems.UpdateRange(authItems);
+					await _context.SaveChangesAsync();
 				}
-
-				foreach(var authItem in authItems) {
-					authItem.Position = (int)positions[$"{authItem.Id}"];
-				}
-
-				_context.AuthItems.UpdateRange(authItems);
-				await _context.SaveChangesAsync();
 
 				return Ok();
 			} catch(KeyNotFoundException err) {
