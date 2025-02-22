@@ -84,10 +84,10 @@ function Departments() {
         const departmentId = e.target.id.value;
 
         const body = {
-            departmentNumber: e.target.departmentNumber.value,
-            displayName: e.target.displayName.value,
-            locationId: e.target.locationId.value,
-            categoryId: e.target.categoryId.value
+            DepartmentNumber: e.target.departmentNumber.value,
+            DisplayName: e.target.displayName.value,
+            LocationId: e.target.locationId.value,
+            CategoryId: e.target.categoryId.value
         };
 
         fetch(`/api/departments/edit/${departmentId}`, {
@@ -102,7 +102,8 @@ function Departments() {
                     setIsLoading(true);
                     dispatch({ type: "flashMessageSuccess", value: { message: "Szerkesztés sikeres." } });
                 } else {
-                    dispatch({ type: "flashMessageWarning", value: { message: response.statusText } });
+                    const responseObj = await response.json()
+                    dispatch({ type: "flashMessageWarning", value: responseObj })
                 }
             })
             .catch(error => {
@@ -211,7 +212,7 @@ function Departments() {
                                             <label className={`${CssClasses.label}`} htmlFor="departmentNumber">
                                                 Azonosító
                                             </label>
-                                            <input name="departmentNumber" className={`${CssClasses.input}`} id="departmentNumber" autoComplete="off" type="text" placeholder="Azonosító" defaultValue={element.departmentNumber} required />
+                                            <input name="departmentNumber" className={`${CssClasses.input}`} id="departmentNumber" autoComplete="off" type="text" placeholder="Azonosító" defaultValue={element.departmentNumber} />
                                         </div>
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label className={`${CssClasses.label}`} htmlFor="displayName">

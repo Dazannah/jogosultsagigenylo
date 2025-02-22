@@ -42,7 +42,8 @@ function DepartmentsMenu(props) {
                     props.setIsLoading(true)
                     dispatch({ type: "flashMessageSuccess", value: { message: "Létrehozás sikeres." } })
                 } else {
-                    dispatch({ type: "flashMessageWarning", value: { message: response.statusText } })
+                    const responseObj = await response.json()
+                    dispatch({ type: "flashMessageWarning", value: responseObj })
                 }
             }).catch(error => {
                 dispatch({ type: "flashMessageError", value: { message: error } })
