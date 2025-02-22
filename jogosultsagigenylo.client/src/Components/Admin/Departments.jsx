@@ -62,7 +62,7 @@ function Departments() {
                     setCategoryId(queryString.get("CategoryId"))
 
                     const page = queryString.get("Page") > Math.ceil(data.maxPageNumber) ? Math.ceil(data.maxPageNumber) : queryString.get("Page")
-                    setPage(page ?? 1)
+                    setPage(page ?? 0)
                     setItemsOnPage(queryString.get("ItemsOnPage"))
 
                     setIsLoading(false);
@@ -346,9 +346,6 @@ function Departments() {
                                 </select>
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                {/*<button className="shadow bg-teal-700 hover:bg-orange-500 cursor-pointer focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" >*/}
-                                {/*    Szűrés*/}
-                                {/*</button>*/}
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-6 stroke-current hover:stroke-green-500 hover:cursor-pointer" onClick={filter}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                                 </svg>
