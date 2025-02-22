@@ -17,6 +17,18 @@ namespace jogosultsagigenylo.Server.Data {
 					new Status { Id = 2, Name = "inactive", DisplayName = "Inaktív" }
 				);
 
+			modelBuilder.Entity<Location>().HasData(
+					new Location { Id = 1, DisplayName = "Makó" },
+					new Location { Id = 2, DisplayName = "Hódmezővásárhely" },
+					new Location { Id = 3, DisplayName = "fekvőbeteg" }
+				);
+
+			modelBuilder.Entity<Category>().HasData(
+					new Category { Id = 1, DisplayName = "fekvőbeteg" },
+					new Category { Id = 2, DisplayName = "járóbeteg" }
+				);
+
+
 			base.OnModelCreating(modelBuilder);
 		}
 
