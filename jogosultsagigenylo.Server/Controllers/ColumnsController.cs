@@ -20,9 +20,7 @@ namespace jogosultsagigenylo.Server.Controllers {
 				.Include(c => c.AuthItems)
 				.ThenInclude(ai => ai.Status)
 				.ToListAsync();
-			foreach(var column in columns) {
-				Console.WriteLine(column);
-			}
+
 			IEnumerable<ColumnDTO> response = ColumnDTO.ToDTOIEnumrable(columns);
 
 			return Json(response);
@@ -31,6 +29,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPost("create")]
 		public async Task<IActionResult> Create([FromBody] ColumnDTO columnDTO) {
 			try {
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
 				var status = await _context.Status.FirstOrDefaultAsync(s => s.Id == columnDTO.StatusId)
 					?? throw new KeyNotFoundException($"Státusz {columnDTO.StatusId} id-val nem található.");
 
@@ -54,6 +55,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPatch("edit/{id}")]
 		public async Task<IActionResult> Edit(int id, [FromBody] ColumnDTO columnDTO) {
 			try {
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
 				var column = await _context.Columns.FirstOrDefaultAsync(c => c.Id == id)
 					?? throw new KeyNotFoundException($"Státusz {id} id-val nem található.");
 
