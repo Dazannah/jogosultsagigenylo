@@ -20,7 +20,9 @@ namespace jogosultsagigenylo.Server.Data {
 			modelBuilder.Entity<Location>().HasData(
 					new Location { Id = 1, DisplayName = "Makó" },
 					new Location { Id = 2, DisplayName = "Hódmezővásárhely" },
-					new Location { Id = 3, DisplayName = "fekvőbeteg" }
+					new Location { Id = 3, DisplayName = "Kakasszék" },
+					new Location { Id = 4, DisplayName = "Központ" },
+					new Location { Id = 4, DisplayName = "Egyéb" }
 				);
 
 			modelBuilder.Entity<Category>().HasData(
