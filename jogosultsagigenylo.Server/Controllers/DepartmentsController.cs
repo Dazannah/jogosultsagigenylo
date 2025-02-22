@@ -40,13 +40,20 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				return new JsonResult(new { departments = filteredDepartments, locations, categories, maxPageNumber });
 			} catch(Exception err) {
-				return BadRequest(new { error = err.Message });
+				return BadRequest(new { message = err.Message });
 			}
 		}
 
 		[HttpPost("create")]
 		public async Task<IActionResult> Create([FromBody] DepartmentDTO departmentDTO) {
 			try {
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
+				var departmentToEdit = await _context.Departments.FirstOrDefaultAsync(c => c.DisplayName == departmentDTO.DisplayName);
+				if(departmentToEdit != null)
+					return BadRequest(new { message = $"Osztály {departmentDTO.DisplayName} névvel már létezzik." });
+
 				var newDepartment = new Department {
 					CategoryId = departmentDTO.CategoryId,
 					DisplayName = departmentDTO.DisplayName,
@@ -59,13 +66,16 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				return Ok(new { message = "Osztály sikeresen létrehozva" });
 			} catch(Exception err) {
-				return BadRequest(new { error = err.Message });
+				return BadRequest(new { message = err.Message });
 			}
 		}
 
 		[HttpPatch("edit/{id}")]
-		public async Task<IActionResult> Edit(int id, DepartmentDTO departmentDTO) {
+		public async Task<IActionResult> Edit(int id, [FromBody] DepartmentDTO departmentDTO) {
 			try {
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
 				ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id, "Id megadása kötelező.");
 
 				var departmentToEdit = await _context.Departments.FirstOrDefaultAsync(c => c.Id == id)
@@ -80,7 +90,7 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				return Ok(new { message = "Szerkesztés sikeres." });
 			} catch(ArgumentOutOfRangeException err) {
-				return NotFound(new { error = err.Message });
+				return NotFound(new { message = err.Message });
 			} catch(KeyNotFoundException err) {
 				return NotFound(new { message = err.Message });
 			} catch(Exception err) {
@@ -100,9 +110,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				return Ok(new { message = "Osztály sikeresen törölve" });
 			} catch(ArgumentOutOfRangeException err) {
-				return NotFound(new { error = err.Message });
+				return NotFound(new { message = err.Message });
 			} catch(Exception err) {
-				return BadRequest(new { error = err.Message });
+				return BadRequest(new { message = err.Message });
 			}
 		}
 	}
