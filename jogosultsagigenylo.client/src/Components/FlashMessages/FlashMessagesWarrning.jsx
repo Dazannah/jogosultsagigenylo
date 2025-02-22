@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react"
 import Container from "../Container"
 
 function FlashMessagesWarning(props) {
-    const flashMessages = props.flashMessages
     const keys = Object.keys(props.flashMessages)
 
     useEffect(() => {
@@ -16,7 +15,7 @@ function FlashMessagesWarning(props) {
 
             return () => clearTimeout(timeoutId)
         }
-    }, [flashMessages])
+    }, [props.flashMessages])
 
     function hide() {
         const div = document.getElementById("flashmessage-warning")
