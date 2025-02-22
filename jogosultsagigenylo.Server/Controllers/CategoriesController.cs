@@ -24,6 +24,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPost("create")]
 		public async Task<IActionResult> Create([FromBody] Category newCategory) {
 			try {
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
 				_context.Categories.Add(newCategory);
 
 				await _context.SaveChangesAsync();
@@ -37,6 +40,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 		[HttpPatch("edit/{id}")]
 		public async Task<IActionResult> Edit(int id, Category categoryEdited) {
 			try {
+				if(!ModelState.IsValid)
+					return BadRequest(ModelState);
+
 				ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id, "Id megadása kötelező.");
 
 				var categoryToEdit = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id)
