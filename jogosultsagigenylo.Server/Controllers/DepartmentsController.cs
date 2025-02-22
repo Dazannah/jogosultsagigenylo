@@ -21,8 +21,8 @@ namespace jogosultsagigenylo.Server.Controllers {
 				var numOfSkips = (departmentQuerry.Page - 1) * departmentQuerry.ItemsOnPage;
 
 				var departments = await _context.Departments
-					.Where(d => string.IsNullOrEmpty(departmentQuerry.DepartmentNumber) || d.DepartmentNumber == departmentQuerry.DepartmentNumber)
-					.Where(d => string.IsNullOrEmpty(departmentQuerry.DisplayName) || d.DisplayName == departmentQuerry.DisplayName)
+					.Where(d => string.IsNullOrEmpty(departmentQuerry.DepartmentNumber) || d.DepartmentNumber.ToLower().Contains(departmentQuerry.DepartmentNumber.ToLower()))
+					.Where(d => string.IsNullOrEmpty(departmentQuerry.DisplayName) || d.DisplayName.ToLower().Contains(departmentQuerry.DisplayName.ToLower()))
 					.Where(d => departmentQuerry.LocationId.GetValueOrDefault(0) == 0 || d.LocationId == departmentQuerry.LocationId)
 					.Where(d => departmentQuerry.CategoryId.GetValueOrDefault(0) == 0 || d.CategoryId == departmentQuerry.CategoryId)
 					.ToListAsync();
@@ -49,10 +49,6 @@ namespace jogosultsagigenylo.Server.Controllers {
 			try {
 				if(!ModelState.IsValid)
 					return BadRequest(ModelState);
-
-				var departmentToEdit = await _context.Departments.FirstOrDefaultAsync(c => c.DisplayName == departmentDTO.DisplayName);
-				if(departmentToEdit != null)
-					return BadRequest(new { message = $"Osztály {departmentDTO.DisplayName} névvel már létezzik." });
 
 				var newDepartment = new Department {
 					CategoryId = departmentDTO.CategoryId,
