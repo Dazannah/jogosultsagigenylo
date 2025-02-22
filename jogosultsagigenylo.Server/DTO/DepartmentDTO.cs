@@ -6,7 +6,7 @@ namespace jogosultsagigenylo.Server.DTO {
 	public class DepartmentDTO {
 		[Key]
 		public int Id { get; set; }
-		public required string DepartmentNumber { get; set; }
+		public string? DepartmentNumber { get; set; }
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Elnevezés nem megfelelő.")]
 		public required string DisplayName { get; set; }
 		[Range(1, int.MaxValue, ErrorMessage = "Hibás helyszín id.")]
