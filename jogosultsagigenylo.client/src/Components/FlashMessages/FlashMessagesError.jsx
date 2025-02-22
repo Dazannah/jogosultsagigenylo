@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react"
 import Container from "../Container"
 
 function FlashMessagesError(props) {
-    const flashMessages = props.flashMessages
     const keys = Object.keys(props.flashMessages)
 
     useEffect(() => {
@@ -16,7 +15,7 @@ function FlashMessagesError(props) {
 
             return () => clearTimeout(timeoutId)
         }
-    }, [flashMessages])
+    }, [props.flashMessages])
 
     function hide() {
         const div = document.getElementById("flashmessage-error")
@@ -30,7 +29,7 @@ function FlashMessagesError(props) {
                     {
                         keys.map(key => {
                             return (
-                                <span key={key} className="block sm:inline">{`${flashMessages[key]}`} </span>
+                                <span key={key} className="block sm:inline">{`${props.flashMessages[key]}`} </span>
                             )
                         })
                     }

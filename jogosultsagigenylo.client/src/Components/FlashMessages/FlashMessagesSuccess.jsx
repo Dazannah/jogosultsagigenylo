@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react"
 import Container from "../Container"
 
 function FlashMessagesSuccess(props) {
-    const flashMessages = props.flashMessages
     const keys = Object.keys(props.flashMessages)
 
     useEffect(() => {
@@ -16,7 +15,7 @@ function FlashMessagesSuccess(props) {
 
             return () => clearTimeout(timeoutId)
         }
-    }, [flashMessages])
+    }, [props.flashMessages])
 
     function hide() {
         const div = document.getElementById("flashmessage-success")
@@ -30,7 +29,7 @@ function FlashMessagesSuccess(props) {
                     {
                         keys.map(key => {
                             return (
-                                <strong key={key} className="block sm:inline">{`${flashMessages[key]}`} </strong>
+                                <strong key={key} className="block sm:inline">{`${props.flashMessages[key]}`} </strong>
                             )
                         })
                     }
