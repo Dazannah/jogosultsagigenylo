@@ -29,7 +29,7 @@ function FlashMessagesWarning(props) {
                     {
                         keys.map(key => {
                             return (
-                                <span key={key} className="block sm:inline">{`${flashMessages[key]}`} </span>
+                                <span key={key} className="block sm:inline">{`${props.flashMessages[key]}`} </span>
                             )
                         })
                     }
