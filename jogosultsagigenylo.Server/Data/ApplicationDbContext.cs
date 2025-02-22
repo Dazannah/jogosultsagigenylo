@@ -27,7 +27,8 @@ namespace jogosultsagigenylo.Server.Data {
 
 			modelBuilder.Entity<Category>().HasData(
 					new Category { Id = 1, DisplayName = "fekvőbeteg" },
-					new Category { Id = 2, DisplayName = "járóbeteg" }
+					new Category { Id = 2, DisplayName = "járóbeteg" },
+					new Category { Id = 3, DisplayName = "kisegítő osztályok" }
 				);
 
 
