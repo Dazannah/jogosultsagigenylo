@@ -41,5 +41,6 @@ namespace jogosultsagigenylo.Server.Data {
 		public DbSet<Department> Departments { get; set; }
 		public DbSet<Location> Locations { get; set; }
 		public DbSet<Category> Categories { get; set; }
+		public DbSet<SubAuthItem> SubAuthItems { get; set; }
 	}
 }
