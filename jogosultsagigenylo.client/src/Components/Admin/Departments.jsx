@@ -19,13 +19,15 @@ function Departments() {
     const [locations, setLocations] = useState([])
     const [categories, setCategories] = useState([])
 
-    const [displayName, setDisplayName] = useState()
-    const [departmentNumber, setDepartmentNumber] = useState()
-    const [locationId, setLocationId] = useState()
-    const [categoryId, setCategoryId] = useState()
-    const [page, setPage] = useState(1)
-    const [itemsOnPage, setItemsOnPage] = useState(10)
-    const [maxPageNumber, setMaxPageNumber] = useState(1)
+    const queryString = new URLSearchParams(window.location.search)
+
+    const [displayName, setDisplayName] = useState(queryString.get("DisplayName"))
+    const [departmentNumber, setDepartmentNumber] = useState(queryString.get("DepartmentNumber"))
+    const [locationId, setLocationId] = useState(queryString.get("LocationId"))
+    const [categoryId, setCategoryId] = useState(queryString.get("CategoryId"))
+    const [page, setPage] = useState(queryString.get("Page") ?? 1)
+    const [itemsOnPage, setItemsOnPage] = useState(queryString.get("ItemsOnPage") ?? 10)
+    const [maxPageNumber, setMaxPageNumber] = useState()
 
     function showDiv(divId) {
         const div = document.getElementById(divId)
@@ -55,14 +57,14 @@ function Departments() {
                     setCategories(data.categories)
                     setMaxPageNumber(Math.ceil(data.maxPageNumber))
 
-                    const queryString = new URLSearchParams(window.location.search)
                     setDisplayName(queryString.get("DisplayName"))
                     setDepartmentNumber(queryString.get("DepartmentNumber"))
                     setLocationId(queryString.get("LocationId"))
                     setCategoryId(queryString.get("CategoryId"))
 
                     const page = queryString.get("Page") > Math.ceil(data.maxPageNumber) ? Math.ceil(data.maxPageNumber) : queryString.get("Page")
-                    setPage(page ?? 0)
+                    setPage(page ?? 1)
+
                     setItemsOnPage(queryString.get("ItemsOnPage"))
 
                     setIsLoading(false);
@@ -76,7 +78,8 @@ function Departments() {
     }, [isLoading])
 
     useEffect(() => {
-        filter()
+        if (page != queryString.get("Page"))
+            filter()
     },[page])
 
     async function editClass(e) {
@@ -143,8 +146,6 @@ function Departments() {
             ItemsOnPage: itemsOnPage
         }
 
-        const queryString = new URLSearchParams(window.location.search)
-
         for (const [key, value] of Object.entries(addParams)) {
             if (value)
                 queryString.set(key, value)
@@ -159,6 +160,11 @@ function Departments() {
     function resetFilter() {
         navigate(`/admin/departments`, { replace: true });
         setIsLoading(true)
+    }
+
+    function sendIfEnter(e) {
+        if (e.key == "Enter")
+            filter()
     }
 
     function renderDepartments() {
@@ -294,13 +300,13 @@ function Departments() {
                         </tr>
                         <tr>
                             <th scope="col" className="px-6 py-3">
-                                <input onKeyUp={e => setDepartmentNumber(e.target.value)}
+                                <input onKeyUp={e => setDepartmentNumber(e.target.value)} onKeyDown={e => sendIfEnter(e) }
                                     name="departmentNumberFilter"
                                     className="appearance-none block w-full bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-white focus:bg-white dark:focus:bg-gray-700 border border-teal-700 focus:border-orange-500 rounded py-1 px-1 leading-tight focus:outline-none"
                                     id="departmentNumberFilter" autoComplete="off" type="text" placeholder="Azonosító" defaultValue={departmentNumber} />
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                <input onKeyUp={e => setDisplayName(e.target.value)}
+                                <input onKeyUp={e => setDisplayName(e.target.value)} onKeyDown={e => sendIfEnter(e)}
                                     name="displayNameFilter"
                                     className="appearance-none block w-full bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-white focus:bg-white dark:focus:bg-gray-700 border border-teal-700 focus:border-orange-500 rounded py-1 px-1 leading-tight focus:outline-none"
                                     id="displayNameFilter" autoComplete="off" type="text" placeholder="Elnevezés" defaultValue={displayName} />

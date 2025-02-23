@@ -38,6 +38,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				var maxPageNumber = departments != null ? departments.Count() / (double)departmentQuerry.ItemsOnPage : 10.0;
 
+				if(maxPageNumber == 0)
+					maxPageNumber = 1;
+
 				return new JsonResult(new { departments = filteredDepartments, locations, categories, maxPageNumber });
 			} catch(Exception err) {
 				return BadRequest(new { message = err.Message });
