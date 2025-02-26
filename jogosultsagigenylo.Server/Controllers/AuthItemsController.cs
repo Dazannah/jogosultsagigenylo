@@ -1,5 +1,6 @@
 ﻿using jogosultsagigenylo.Server.Data;
 using jogosultsagigenylo.Server.DTO;
+using jogosultsagigenylo.Server.Interfaces;
 using jogosultsagigenylo.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,21 +10,18 @@ namespace jogosultsagigenylo.Server.Controllers {
 	[Route("api/[controller]")]
 	public class AuthItemsController : Controller {
 		private readonly ApplicationDbContext _context;
+		private readonly IAuthItem _authItemService;
+		private readonly IColumn _columnService;
 
-		public AuthItemsController(ApplicationDbContext context) {
+		public AuthItemsController(ApplicationDbContext context, IAuthItem authItemService, IColumn columnService) {
 			_context = context;
+			_authItemService = authItemService;
+			_columnService = columnService;
 		}
 
 		[HttpGet("")]
 		public async Task<IActionResult> Index() {
-			IEnumerable<Column> columns = await _context.Columns
-				.OrderBy(c => c.Position)
-				.Include(c => c.Status)
-				.Include(c => c.AuthItems.OrderBy(a => a.Position))
-				.ThenInclude(ai => ai.Status)
-				.ToListAsync();
-
-			IEnumerable<ColumnDTO> columnsDTO = ColumnDTO.ToDTOIEnumrable(columns);
+			var columnsDTO = await _columnService.GetColumnsDTO();
 			IEnumerable<Status> statuses = await _context.Status.ToArrayAsync();
 
 			return Json(new { columnsDTO, statuses });
@@ -35,24 +33,10 @@ namespace jogosultsagigenylo.Server.Controllers {
 				if(!ModelState.IsValid)
 					return BadRequest(ModelState);
 
-				var column = await _context.Columns.FirstOrDefaultAsync(c => c.Id == authItemDTO.ColumnId)
-					?? throw new KeyNotFoundException($"Oszlop {authItemDTO.ColumnId} id-val nem található.");
+				var result = await _authItemService.CreateOne(authItemDTO);
 
-				var status = await _context.Status.FirstOrDefaultAsync(s => s.Id == authItemDTO.StatusId)
-					?? throw new KeyNotFoundException($"Státusz {authItemDTO.StatusId} id-val nem található");
-
-				var lastInColumn = _context.AuthItems.Where(a => a.ColumnId == authItemDTO.ColumnId).OrderByDescending(a => a.Position).FirstOrDefault()?.Position;
-
-				var authItem = new AuthItem {
-					DisplayName = authItemDTO.DisplayName,
-					ColumnId = authItemDTO.ColumnId,
-					Column = column,
-					Status = status,
-					Position = ++lastInColumn ?? 1
-				};
-
-				_context.AuthItems.Add(authItem);
-				await _context.SaveChangesAsync();
+				if(!result)
+					return BadRequest(new { error = "Sikertelen jogosultság létrehozás." });
 
 				return Ok(new { message = "Jogosultság sikeresen létrehozva" });
 			} catch(KeyNotFoundException err) {
