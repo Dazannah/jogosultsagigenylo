@@ -18,11 +18,12 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 		[HttpGet("")]
 		public async Task<IActionResult> Index() {
-			IEnumerable<AuthItem> authItems = await _context.AuthItems.ToListAsync();
-			IEnumerable<SubAuthItem> subAuthItems = await _context.SubAuthItems.ToListAsync();
+			IEnumerable<AuthItem> authItems = await _context.AuthItems
+				.Include(ai => ai.Status)
+				.Include(ai => ai.SubAuthItems)
+				.ToListAsync();
 
-
-			return new JsonResult(new { authItems, subAuthItems });
+			return new JsonResult(new { authItems });
 		}
 
 		// GET api/<SubAuthItemController>/5
