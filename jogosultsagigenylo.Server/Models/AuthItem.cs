@@ -6,14 +6,14 @@ namespace jogosultsagigenylo.Server.Models {
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
-		//public required string Name { get; set; }
 		public required string DisplayName { get; set; }
+		public virtual ICollection<SubAuthItem> SubAuthItems { get; set; } = [];
 		public int ColumnId { get; set; }
 		[ForeignKey("ColumnId")]
-		public Column Column { get; set; }
+		public Column? Column { get; set; }
 		public int StatusId { get; set; }
 		[ForeignKey("StatusId")]
-		public Status Status { get; set; }
+		public Status? Status { get; set; }
 		public int Position { get; set; }
 	}
 }
