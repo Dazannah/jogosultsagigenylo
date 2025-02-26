@@ -12,6 +12,13 @@ namespace jogosultsagigenylo.Server.Data {
 				.HasForeignKey(a => a.ColumnId)
 				.OnDelete(DeleteBehavior.Cascade);
 
+			modelBuilder.Entity<AuthItem>()
+				.HasMany(ai => ai.SubAuthItems)
+				.WithOne()
+				.HasForeignKey(sai => sai.AuthItemId)
+				.IsRequired()
+				.OnDelete(DeleteBehavior.Cascade);
+
 			modelBuilder.Entity<Status>().HasData(
 					new Status { Id = 1, Name = "active", DisplayName = "Aktív" },
 					new Status { Id = 2, Name = "inactive", DisplayName = "Inaktív" }
