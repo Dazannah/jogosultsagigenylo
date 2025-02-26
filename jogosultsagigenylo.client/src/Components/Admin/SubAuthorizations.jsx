@@ -10,7 +10,6 @@ function SubAuthorizations() {
 
     const title = "Aljogosultságok"
     const [authItems, setAuthItems] = useState([]);
-    const [subAuthItems, setSubAuthItems] = useState([]);
     const [isLoading, setIsloading] = useState(true);
 
     useEffect(() => {
@@ -21,7 +20,6 @@ function SubAuthorizations() {
                 })
                 .then(data => {
                     setAuthItems(data.authItems)
-                    setSubAuthItems(data.subAuthItems)
 
                     setIsloading(false)
                 })
@@ -31,6 +29,30 @@ function SubAuthorizations() {
         }
     }, [isLoading])
 
+    function renderSubAuthItems(authItem) {
+        return authItem.subAuthItems.map((subAuthItem, idx) => {
+            return (
+                <span key={`subAuthItem-span-${idx}`}>{subAuthItem}</span>
+            )
+        })
+    }
+
+    function renderAuthItems(){
+        return authItems.map((authItem, idx) => {
+            console.log(authItem, idx)
+            return (
+                <div key={`authItem-div-${idx}`}>
+                    <span key={`authItem-span-${idx}`}>{authItem.displayName} items: </span>
+
+                    {
+                        renderSubAuthItems(authItem)
+                    }
+                    <br />
+                </div>
+            )
+        })
+    }
+
     if (isLoading) return (
         <Container title={title}>
             <Loading></Loading>
@@ -39,7 +61,11 @@ function SubAuthorizations() {
 
   return (
       <Container title={title}>
-          <Loading></Loading>
+          
+          {
+              renderAuthItems()
+          }
+          
       </Container>
   );
 }
