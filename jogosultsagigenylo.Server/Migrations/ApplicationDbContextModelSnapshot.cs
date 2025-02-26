@@ -48,7 +48,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("AuthItems");
+                    b.ToTable("AuthItems", (string)null);
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Category", b =>
@@ -65,7 +65,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -107,7 +107,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Columns");
+                    b.ToTable("Columns", (string)null);
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Department", b =>
@@ -137,7 +137,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Location", b =>
@@ -157,7 +157,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
 
                     b.HasData(
                         new
@@ -205,7 +205,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Status");
+                    b.ToTable("Status", (string)null);
 
                     b.HasData(
                         new
@@ -241,7 +241,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasIndex("AuthItemId");
 
-                    b.ToTable("SubAuthItems");
+                    b.ToTable("SubAuthItems", (string)null);
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.AuthItem", b =>
