@@ -7,8 +7,6 @@ namespace jogosultsagigenylo.Server.Models {
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 		public required string DisplayName { get; set; }
-		public int AuthItemId { get; set; }
-		[ForeignKey("AuthItemId")]
-		public AuthItem? AuthItem { get; set; }
+		public required int AuthItemId { get; set; }
 	}
 }
