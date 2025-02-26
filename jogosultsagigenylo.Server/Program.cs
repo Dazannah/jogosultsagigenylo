@@ -1,4 +1,6 @@
 using jogosultsagigenylo.Server.Data;
+using jogosultsagigenylo.Server.Interfaces;
+using jogosultsagigenylo.Server.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,10 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApplicationDbContext>(option => {
 	option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+
+//Interfaces and concrete types registrations
+builder.Services.AddScoped<IAuthItem, AuthItemService>();
+builder.Services.AddScoped<IColumn, ColumnService>();
 
 var app = builder.Build();
 
