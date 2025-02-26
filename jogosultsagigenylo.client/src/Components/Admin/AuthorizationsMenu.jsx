@@ -47,7 +47,7 @@ function AuthorizationMenu(props) {
                     dispatch({ type: "flashMessageSuccess", value: { message: "Létrehozás sikeres." } })
                 } else {
                     const msg = await response.json()
-                    dispatch({ type: "flashMessageWarning", value: { message: response.statusText } })
+                    dispatch({ type: "flashMessageWarning", value: msg ?? { message: response.statusText } })
                 }
             }).catch(error => {
                 dispatch({ type: "flashMessageError", value: { message: response.statusText } })
