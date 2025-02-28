@@ -1,7 +1,8 @@
 ﻿using jogosultsagigenylo.Server.DTO;
 
 namespace jogosultsagigenylo.Server.Interfaces {
-	public interface IColumn {
+	public interface IColumnService {
 		public Task<IEnumerable<ColumnDTO>> GetColumnsDTO();
+		public Task<int> SortAuthItemsByPositionInSpecificColumn(int id);
 	}
 }
