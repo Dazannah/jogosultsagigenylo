@@ -1,4 +1,5 @@
 using jogosultsagigenylo.Server.Data;
+using jogosultsagigenylo.Server.DTO;
 using jogosultsagigenylo.Server.Interfaces;
 using jogosultsagigenylo.Server.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => {
 });
 
 //Interfaces and concrete types registrations
-builder.Services.AddScoped<IAuthItem, AuthItemService>();
-builder.Services.AddScoped<IColumn, ColumnService>();
+builder.Services.AddScoped<IAuthItemService, AuthItemService>();
+builder.Services.AddScoped<IColumnService, ColumnService>();
+builder.Services.AddScoped<IAuthItemDTO, AuthItemDTO>();
 
 var app = builder.Build();
 
