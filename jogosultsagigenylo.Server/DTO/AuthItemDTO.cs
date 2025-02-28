@@ -1,8 +1,9 @@
-﻿using jogosultsagigenylo.Server.Models;
+﻿using jogosultsagigenylo.Server.Interfaces;
+using jogosultsagigenylo.Server.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace jogosultsagigenylo.Server.DTO {
-	public class AuthItemDTO {
+	public class AuthItemDTO : IAuthItemDTO {
 		[Key]
 		public int Id { get; set; }
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Elnevezés nem megfelelő.")]
