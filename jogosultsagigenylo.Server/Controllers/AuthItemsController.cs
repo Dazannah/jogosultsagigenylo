@@ -10,10 +10,10 @@ namespace jogosultsagigenylo.Server.Controllers {
 	[Route("api/[controller]")]
 	public class AuthItemsController : Controller {
 		private readonly ApplicationDbContext _context;
-		private readonly IAuthItem _authItemService;
-		private readonly IColumn _columnService;
+		private readonly IAuthItemService _authItemService;
+		private readonly IColumnService _columnService;
 
-		public AuthItemsController(ApplicationDbContext context, IAuthItem authItemService, IColumn columnService) {
+		public AuthItemsController(ApplicationDbContext context, IAuthItemService authItemService, IColumnService columnService) {
 			_context = context;
 			_authItemService = authItemService;
 			_columnService = columnService;
@@ -38,6 +38,8 @@ namespace jogosultsagigenylo.Server.Controllers {
 				if(!result)
 					return BadRequest(new { error = "Sikertelen jogosultság létrehozás." });
 
+				await _columnService.SortAuthItemsByPositionInSpecificColumn(authItemDTO.ColumnId);
+
 				return Ok(new { message = "Jogosultság sikeresen létrehozva" });
 			} catch(KeyNotFoundException err) {
 				return NotFound(new { error = err.Message });
@@ -52,28 +54,12 @@ namespace jogosultsagigenylo.Server.Controllers {
 				if(!ModelState.IsValid)
 					return BadRequest(ModelState);
 
-				var allAuthItems = await _context.AuthItems
-					.Where(ai => ai.ColumnId == authItemDTO.ColumnId)
-					.ToListAsync();
+				var result = await _authItemService.Update(id, authItemDTO);
+				await _columnService.SortAuthItemsByPositionInSpecificColumn(authItemDTO.ColumnId);
 
-				var authItem = allAuthItems.FirstOrDefault(ai => ai.Id == id)
-					?? throw new KeyNotFoundException($"Jogosultság {id} id-val nem található.");
+				if(!result)
+					return BadRequest(new { error = "Sikertelen jogosultság szerkesztés." });
 
-				authItem.DisplayName = authItemDTO.DisplayName;
-				authItem.StatusId = authItemDTO.StatusId;
-				authItem.ColumnId = authItemDTO.ColumnId;
-				authItem.Position = authItemDTO.Position;
-
-				var sortedAllAuthItems = allAuthItems.OrderBy(ai => ai.Position).ThenBy(ai => ai.DisplayName);
-
-				int newPosition = 1;
-				foreach(var item in sortedAllAuthItems) {
-					item.Position = newPosition;
-					newPosition++;
-				}
-
-				_context.AuthItems.UpdateRange(sortedAllAuthItems);
-				await _context.SaveChangesAsync();
 
 				return Ok(new { message = "Jogosultság sikeresen frissítve." });
 			} catch(KeyNotFoundException err) {
@@ -88,13 +74,18 @@ namespace jogosultsagigenylo.Server.Controllers {
 			try {
 				ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id, "Id megadása kötelező.");
 
-				int deletedRows = await _context.AuthItems.Where(ai => ai.Id == id).ExecuteDeleteAsync();
+				var authItemToDelete = await _context.AuthItems.Where(ai => ai.Id == id).FirstOrDefaultAsync()
+					?? throw new KeyNotFoundException($"Jogosultság {id} id-val nem található.");
 
-				if(deletedRows == 0)
-					return NotFound(new { error = $"Nem található jogosultság {id} id-val." });
+
+				_context.AuthItems.Remove(authItemToDelete);
+				await _context.SaveChangesAsync();
+				await _columnService.SortAuthItemsByPositionInSpecificColumn(authItemToDelete.ColumnId);
 
 				return Ok(new { message = "Jogosultság sikeresen törölve" });
 			} catch(ArgumentOutOfRangeException err) {
+				return NotFound(new { error = err.Message });
+			} catch(KeyNotFoundException err) {
 				return NotFound(new { error = err.Message });
 			} catch(Exception err) {
 				return BadRequest(new { error = err.Message });
@@ -107,28 +98,13 @@ namespace jogosultsagigenylo.Server.Controllers {
 				if(!ModelState.IsValid)
 					return BadRequest(ModelState);
 
-				var authItems = _context.AuthItems.Where(a => a.ColumnId == columnId)
-					?? throw new KeyNotFoundException($"Oszlop {columnId} id-val nem található.");
-
-				if(authItems != null) {
-					var positions = new Dictionary<int, int>();
-
-					foreach(var authItemDTO in authItemDTOs) {
-						positions.Add(authItemDTO.Id, authItemDTO.Position);
-					}
-
-					foreach(var authItem in authItems) {
-						authItem.Position = positions[authItem.Id];
-					}
-
-					_context.AuthItems.UpdateRange(authItems);
-					await _context.SaveChangesAsync();
-				}
+				await _authItemService.UpdateOrder(columnId, authItemDTOs);
 
 				return Ok();
 			} catch(KeyNotFoundException err) {
 				return NotFound(new { error = err.Message });
 			} catch(Exception err) {
+				Console.WriteLine(err);
 				return BadRequest(new { error = err.Message });
 			}
 		}
