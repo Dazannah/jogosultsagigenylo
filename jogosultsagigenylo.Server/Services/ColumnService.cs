@@ -5,7 +5,7 @@ using jogosultsagigenylo.Server.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace jogosultsagigenylo.Server.Services {
-	public class ColumnService : IColumn {
+	public class ColumnService : IColumnService {
 		private readonly ApplicationDbContext _context;
 
 		public ColumnService(ApplicationDbContext context) {
@@ -23,6 +23,23 @@ namespace jogosultsagigenylo.Server.Services {
 			IEnumerable<ColumnDTO> columnsDTO = ColumnDTO.ToDTOIEnumrable(columns);
 
 			return columnsDTO;
+		}
+
+		public async Task<int> SortAuthItemsByPositionInSpecificColumn(int columnId) {
+			var allAuthItems = await _context.AuthItems
+				.Where(ai => ai.ColumnId == columnId)
+				.ToListAsync();
+
+			var sortedAllAuthItems = allAuthItems.OrderBy(ai => ai.Position).ThenBy(ai => ai.DisplayName);
+
+			int newPosition = 1;
+			foreach(var item in sortedAllAuthItems) {
+				item.Position = newPosition;
+				newPosition++;
+			}
+
+			_context.AuthItems.UpdateRange(sortedAllAuthItems);
+			return await _context.SaveChangesAsync();
 		}
 	}
 }
