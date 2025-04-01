@@ -92,74 +92,80 @@ function NewUser() {
 
     return (
         <Container title={"Új felhasználó"}>
-            <form className="w-full max-w-5xl mx-auto p-5 shadow-md sm:rounded-lg">
+            <form action="/new-user" method="post" className="w-full max-w-5xl mx-auto p-5 shadow-lg sm:rounded-lg">
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className={`${CssClasses.label}`} htmlFor="name">
-                                Név
+                                Név*
                         </label>
-                        <input className={`${CssClasses.input}`} id="name" autoComplete="off" type="text" placeholder="Név" />
+                        <input className={`${CssClasses.input}`} id="name" autoComplete="off" type="text" placeholder="Név" required />
                     </div>
-                    <div className="w-full md:w-1/3 px-3">
 
-                        <label className={`${CssClasses.label}`} htmlFor="classes">
-                                Osztály kiválasztása
-                        </label>
-                        <select id="classes" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer">
-                            <option value="">---</option>
-                            <option value="1">Belgyógyászat</option>
-                            <option value="2">Sebészet</option>
-                        </select>
-                        <label className="uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2 cursor-pointer" htmlFor="isTechnical">Technikai fiók</label>{" "}
-                        <input id="isTechnical" className="my-auto cursor-pointer" autoComplete="off" type="checkbox" />
-                        </div>
                     <div className="w-full md:w-1/3 px-3">
                         <label className={`${CssClasses.label}`} htmlFor="registration-number">
                                 Nyilv. szám
                             </label>
                         <input className={`${CssClasses.input}`} id="registration-number" type="text" placeholder="Nyilv. szám" />
-                        </div>
                     </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/3 px-3">
-                        <label className={`${CssClasses.label}`} htmlFor="process">
-                                Folyamat
-                            </label>
-                        <input className={`${CssClasses.input}`}
-                                id="process" type="text" placeholder="Folyamat" />
-                        </div>
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label className={`${CssClasses.label}`} htmlFor="validFrom">
-                                Érvényesség kezdete
-                        </label>
-                        <input className={`${CssClasses.input}`} autoComplete="off" type="datetime-local" id="validFrom" name="validFrom" /></div>
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label className={`${CssClasses.label}`} htmlFor="validTo">
-                                Érvényesség vége
-                            </label>
-                        <input className={`${CssClasses.input}`} autoComplete="off" type="datetime-local" id="validTo" name="validTo" />
-                        </div>
+                        <label className="uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2 cursor-pointer" htmlFor="isTechnical">Technikai fiók</label>{" "}
+                        <input id="isTechnical" className="my-auto cursor-pointer" autoComplete="off" type="checkbox" />
                     </div>
+                </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className={`${CssClasses.label}`} htmlFor="work-location">
-                                Munkavégzés helye
-                            </label>
-                        <input className={`${CssClasses.input}`} id="work-location" type="text" placeholder="Munkavégzés helye" />
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            Munkavégzés helye*
+                        </label>
+                        <input className={`${CssClasses.input}`} id="work-location" type="text" placeholder="Munkavégzés helye" required />
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className={`${CssClasses.label}`} htmlFor="class-leader">
-                                Osztályvezető
-                            </label>
-                        <input className={`${CssClasses.input}`} id="class-leader" type="text" placeholder="Osztályvezető" />
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            Osztályvezető*
+                        </label>
+                        <input className={`${CssClasses.input}`} id="class-leader" type="text" placeholder="Osztályvezető" required />
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className={`${CssClasses.label}`} htmlFor="position">
-                                Beosztás
-                            </label>
-                        <input className={`${CssClasses.input}`} id="position" type="text" placeholder="Beosztás" />
-                        </div>
+                            Beosztás*
+                        </label>
+                        <input className={`${CssClasses.input}`} id="position" type="text" placeholder="Beosztás" required />
+                    </div>
                 </div>
+                <div className="flex flex-wrap -mx-3 mb-2">
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className={`${CssClasses.label}`} htmlFor="phone-number">
+                            Tel.szám(70-1234567)*
+                        </label>
+                        <input className={`${CssClasses.input}`} id="phone-number" name="phone-number" type="tel" placeholder="70-1234567" pattern="[0-9]{2}-[0-9]{7}" required />
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className={`${CssClasses.label}`} htmlFor="email">
+                            Email cím
+                        </label>
+                        <input className={`${CssClasses.input}`} id="email" type="email" placeholder="Email cím" />
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className={`${CssClasses.label}`} htmlFor="position">
+                            Beosztás*
+                        </label>
+                        <input className={`${CssClasses.input}`} id="position" type="text" placeholder="Beosztás" required />
+                    </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full md:w-1/3 px-3">
+                        <label className={`${CssClasses.label}`} htmlFor="classes">
+                            Osztály kiválasztása**
+                        </label>
+                        <select id="classes" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer" required >
+                            <option value="">---</option>
+                            <option value="1">Belgyógyászat</option>
+                            <option value="2">Sebészet</option>
+                        </select>
+                    </div>
+
+                    </div>
+
                 <div className="flex flex-wrap m-3 py-3 -mx-3 my-5 mb-2">
                     {
                         columns.map(column => {
@@ -173,13 +179,18 @@ function NewUser() {
                     </label>
                     <textarea className={`${CssClasses.input}`} id="createTextArea" name="createTextArea" title="createTextArea"></textarea>
                 </div>
+
                 <div className="md:w-2/3">
 
-                    <button className="shadow bg-teal-700 hover:bg-orange-500 cursor-pointer focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                    <button className="shadow bg-teal-700 hover:bg-orange-500 cursor-pointer focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
                         Küldés
                     </button>
                 </div>
-                </form>
+
+            </form>
+            <br />
+            <small>* mező megadása kötelező.</small><br />
+            <small>** több is választható.</small>
         </Container>
   );
 }
