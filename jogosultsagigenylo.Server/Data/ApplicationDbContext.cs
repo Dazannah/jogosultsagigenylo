@@ -32,13 +32,6 @@ namespace jogosultsagigenylo.Server.Data {
 					new Location { Id = 5, DisplayName = "Egyéb" }
 				);
 
-			modelBuilder.Entity<Category>().HasData(
-					new Category { Id = 1, DisplayName = "fekvőbeteg" },
-					new Category { Id = 2, DisplayName = "járóbeteg" },
-					new Category { Id = 3, DisplayName = "kisegítő osztályok" }
-				);
-
-
 			base.OnModelCreating(modelBuilder);
 		}
 
@@ -47,7 +40,6 @@ namespace jogosultsagigenylo.Server.Data {
 		public DbSet<Status> Status { get; set; }
 		public DbSet<Department> Departments { get; set; }
 		public DbSet<Location> Locations { get; set; }
-		public DbSet<Category> Categories { get; set; }
 		public DbSet<SubAuthItem> SubAuthItems { get; set; }
 	}
 }
