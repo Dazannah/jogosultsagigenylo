@@ -22,9 +22,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				var departments = await _context.Departments
 					.Where(d => string.IsNullOrEmpty(departmentQuerry.DepartmentNumber) || d.DepartmentNumber.ToLower().Contains(departmentQuerry.DepartmentNumber.ToLower()))
+					.Where(d => string.IsNullOrEmpty(departmentQuerry.DepartmentNumber2) || d.DepartmentNumber2.ToLower().Contains(departmentQuerry.DepartmentNumber2.ToLower()))
 					.Where(d => string.IsNullOrEmpty(departmentQuerry.DisplayName) || d.DisplayName.ToLower().Contains(departmentQuerry.DisplayName.ToLower()))
 					.Where(d => departmentQuerry.LocationId.GetValueOrDefault(0) == 0 || d.LocationId == departmentQuerry.LocationId)
-					.Where(d => departmentQuerry.CategoryId.GetValueOrDefault(0) == 0 || d.CategoryId == departmentQuerry.CategoryId)
 					.ToListAsync();
 
 				var filteredDepartments = departments
@@ -34,14 +34,13 @@ namespace jogosultsagigenylo.Server.Controllers {
 					.Take(departmentQuerry.ItemsOnPage);
 
 				var locations = await _context.Locations.ToListAsync();
-				var categories = await _context.Categories.ToListAsync();
 
 				var maxPageNumber = departments != null ? departments.Count() / (double)departmentQuerry.ItemsOnPage : 10.0;
 
 				if(maxPageNumber == 0)
 					maxPageNumber = 1;
 
-				return new JsonResult(new { departments = filteredDepartments, locations, categories, maxPageNumber });
+				return new JsonResult(new { departments = filteredDepartments, locations, maxPageNumber });
 			} catch(Exception err) {
 				return BadRequest(new { message = err.Message });
 			}
@@ -54,9 +53,9 @@ namespace jogosultsagigenylo.Server.Controllers {
 					return BadRequest(ModelState);
 
 				var newDepartment = new Department {
-					CategoryId = departmentDTO.CategoryId,
 					DisplayName = departmentDTO.DisplayName,
 					DepartmentNumber = departmentDTO.DepartmentNumber,
+					DepartmentNumber2 = departmentDTO.DepartmentNumber2,
 					LocationId = departmentDTO.LocationId
 				};
 
@@ -82,7 +81,6 @@ namespace jogosultsagigenylo.Server.Controllers {
 
 				departmentToEdit.DepartmentNumber = departmentDTO.DepartmentNumber;
 				departmentToEdit.LocationId = departmentDTO.LocationId;
-				departmentToEdit.CategoryId = departmentDTO.CategoryId;
 				departmentToEdit.DisplayName = departmentDTO.DisplayName;
 
 				await _context.SaveChangesAsync();

@@ -17,14 +17,13 @@ function Departments() {
     const [isLoading, setIsLoading] = useState(true)
     const [departments, setDepartments] = useState([])
     const [locations, setLocations] = useState([])
-    const [categories, setCategories] = useState([])
 
     const queryString = new URLSearchParams(window.location.search)
 
     const [displayName, setDisplayName] = useState(queryString.get("DisplayName"))
     const [departmentNumber, setDepartmentNumber] = useState(queryString.get("DepartmentNumber"))
+    const [departmentNumber2, setDepartmentNumber2] = useState(queryString.get("DepartmentNumber2"))
     const [locationId, setLocationId] = useState(queryString.get("LocationId"))
-    const [categoryId, setCategoryId] = useState(queryString.get("CategoryId"))
     const [page, setPage] = useState(queryString.get("Page") ?? 1)
     const [itemsOnPage, setItemsOnPage] = useState(queryString.get("ItemsOnPage") ?? 10)
     const [maxPageNumber, setMaxPageNumber] = useState()
@@ -54,13 +53,12 @@ function Departments() {
                 .then(data => {
                     setLocations(data.locations)
                     setDepartments(data.departments)
-                    setCategories(data.categories)
                     setMaxPageNumber(Math.ceil(data.maxPageNumber))
 
                     setDisplayName(queryString.get("DisplayName"))
                     setDepartmentNumber(queryString.get("DepartmentNumber"))
+                    setDepartmentNumber2(queryString.get("DepartmentNumber2"))
                     setLocationId(queryString.get("LocationId"))
-                    setCategoryId(queryString.get("CategoryId"))
 
                     const page = queryString.get("Page") > Math.ceil(data.maxPageNumber) ? Math.ceil(data.maxPageNumber) : queryString.get("Page")
                     setPage(page ?? 1)
@@ -89,8 +87,7 @@ function Departments() {
         const body = {
             DepartmentNumber: e.target.departmentNumber.value,
             DisplayName: e.target.displayName.value,
-            LocationId: e.target.locationId.value,
-            CategoryId: e.target.categoryId.value
+            LocationId: e.target.locationId.value
         };
 
         fetch(`/api/departments/edit/${departmentId}`, {
@@ -139,9 +136,9 @@ function Departments() {
     function filter() {
         const addParams = {
             DepartmentNumber: departmentNumber,
+            DepartmentNumber2: departmentNumber2,
             DisplayName: displayName,
             LocationId: locationId,
-            CategoryId: categoryId,
             Page: page,
             ItemsOnPage: itemsOnPage
         }
@@ -177,13 +174,13 @@ function Departments() {
                         {department.departmentNumber}
                     </td>
                     <td className="px-6 py-4">
+                        {department.departmentNumber2}
+                    </td>
+                    <td className="px-6 py-4">
                         <span>{department.displayName}</span>
                     </td>
                     <td className="px-6 py-4">
                         {department.location.displayName}
-                    </td>
-                    <td className="px-6 py-4">
-                        {department.category.displayName}
                     </td>
                     <td className="px-1 py-4">
                         <div className="flex place-content-end">
@@ -221,42 +218,18 @@ function Departments() {
                                             <input name="departmentNumber" className={`${CssClasses.input}`} id="departmentNumber" autoComplete="off" type="text" placeholder="Azonosító" defaultValue={element.departmentNumber} />
                                         </div>
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                            <label className={`${CssClasses.label}`} htmlFor="departmentNumber2">
+                                                Azonosító2
+                                            </label>
+                                            <input name="departmentNumber2" className={`${CssClasses.input}`} id="departmentNumber2" autoComplete="off" type="text" placeholder="Azonosító2" defaultValue={element.departmentNumber2} />
+                                        </div>
+                                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label className={`${CssClasses.label}`} htmlFor="displayName">
                                                 Elnevezés
                                             </label>
                                             <input name="displayName" className={`${CssClasses.input}`} id="displayName" autoComplete="off" type="text" placeholder="Elnevezés" defaultValue={element.displayName} required />
                                         </div>
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                            <label className={`${CssClasses.label}`} htmlFor="locationId">
-                                                Helyszín
-                                            </label>
-                                            <select defaultValue={element.location.id} name="locationId" key="add-auth-item-statuses" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
-                                                {
-                                                    locations.map(location => {
-                                                        return (
-                                                            <option key={`add-department-choose-${location.id}`} value={location.id}>
-                                                                {location.displayName}
-                                                            </option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
-                                        </div>
-                                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                            <label className={`${CssClasses.label}`} htmlFor="category">
-                                                Kategória
-                                            </label>
-                                            <select defaultValue={element.category.id} name="categoryId" key="add-category" className="w-full rounded border bg-gray-100 dark:bg-gray-900 border-teal-700 focus:border-orange-500 cursor-pointer py-3 px-4 mb-3" id="statuses" required>
-                                                {
-                                                    categories.map(category => {
-                                                        return (
-                                                            <option key={`add-category-choose-${category.id}`} value={category.id}>
-                                                                {category.displayName}
-                                                            </option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
                                         </div>
                                     </div>
                                     <div className="md:w-2/3">
@@ -279,7 +252,7 @@ function Departments() {
 
     return (
         <Container title={title}>
-            <DepartmentsMenu setIsLoading={setIsLoading} locations={locations} categories={categories} />
+            <DepartmentsMenu setIsLoading={setIsLoading} locations={locations} />
             <div className="shadow-sm w-fit mt-1 mx-auto break-words">
                 <table className="w-full text-sm text-left rtl:text-right">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
@@ -288,13 +261,13 @@ function Departments() {
                                 Azonosító
                             </th>
                             <th scope="col" className="px-6 py-3">
+                                Azonosító2
+                            </th>
+                            <th scope="col" className="px-6 py-3">
                                 Elnevezés
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Helyszín
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Kategória
                             </th>
                             <th scope="col" className="px-6 py-3"></th>
                         </tr>
@@ -304,6 +277,12 @@ function Departments() {
                                     name="departmentNumberFilter"
                                     className="appearance-none block w-full bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-white focus:bg-white dark:focus:bg-gray-700 border border-teal-700 focus:border-orange-500 rounded py-1 px-1 leading-tight focus:outline-none"
                                     id="departmentNumberFilter" autoComplete="off" type="text" placeholder="Azonosító" defaultValue={departmentNumber} />
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                <input onKeyUp={e => setDepartmentNumber2(e.target.value)} onKeyDown={e => sendIfEnter(e)}
+                                    name="departmentNumber2Filter"
+                                    className="appearance-none block w-full bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-white focus:bg-white dark:focus:bg-gray-700 border border-teal-700 focus:border-orange-500 rounded py-1 px-1 leading-tight focus:outline-none"
+                                    id="departmentNumberFilter" autoComplete="off" type="text" placeholder="Azonosító2" defaultValue={departmentNumber2} />
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 <input onKeyUp={e => setDisplayName(e.target.value)} onKeyDown={e => sendIfEnter(e)}
@@ -327,26 +306,6 @@ function Departments() {
                                                         {location.displayName}
                                                     </option>
                                                 )
-                                        })
-                                    }
-                                </select>
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                <select
-                                    defaultValue={categoryId}
-                                    onChange={e => setCategoryId(e.target.value)}
-                                    name="categoryId" key="add-category"
-                                    className="block w-full bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-white focus:bg-white dark:focus:bg-gray-700 border border-teal-700 focus:border-orange-500 rounded py-1 px-1 leading-tight focus:outline-none">
-                                    <option key={`add-category-choose`} value="">
-                                        Válassz
-                                    </option>
-                                    {
-                                        categories.map(category => {
-                                            return (
-                                                <option key={`add-category-choose-${category.id}`} value={category.id}>
-                                                    {category.displayName}
-                                                </option>
-                                            )
                                         })
                                     }
                                 </select>

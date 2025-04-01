@@ -7,13 +7,11 @@ namespace jogosultsagigenylo.Server.Models {
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 		public string? DepartmentNumber { get; set; }
+		public string? DepartmentNumber2 { get; set; }
 		public required string DisplayName { get; set; }
 
 		public required int LocationId { get; set; }
 		[ForeignKey("LocationId")]
 		public Location Location { get; set; }
-		public required int CategoryId { get; set; }
-		[ForeignKey("CategoryId")]
-		public Category Category { get; set; }
 	}
 }
