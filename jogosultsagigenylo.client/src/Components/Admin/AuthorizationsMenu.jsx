@@ -183,12 +183,14 @@ function AuthorizationMenu(props) {
                     </div>
                 </Container>
             </div>
-            <button onClick={() => showDiv("add-auth-item-div")} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 rounded-md rounded-r-none border border-green-500 hover:border-transparent rounded hover:cursor-pointer">
+            <div className="w-full p-5 bg-gray-50 dark:bg-gray-800">
+                <button onClick={() => showDiv("add-auth-item-div")} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 rounded-md rounded-r-none border border-green-500 hover:border-transparent rounded hover:cursor-pointer">
                     Jogosultság hozzáadása
                 </button>
-            <button onClick={() => showDiv("add-column-div")} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 rounded-md rounded-l-none border border-green-500 hover:border-transparent rounded hover:cursor-pointer">
+                <button onClick={() => showDiv("add-column-div")} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 rounded-md rounded-l-none border border-green-500 hover:border-transparent rounded hover:cursor-pointer">
                     Oszlop hozzáadása
                 </button>
+            </div>
         </>
     );
 }

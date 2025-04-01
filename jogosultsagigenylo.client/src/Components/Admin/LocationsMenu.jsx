@@ -86,9 +86,11 @@ function LocationsMenu(props) {
                   </div>
               </Container>
           </div>
-          <button onClick={() => showDiv("add-location-div")} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 rounded-md border border-green-500 hover:border-transparent rounded hover:cursor-pointer">
+          <div className="w-full p-5 bg-gray-50 dark:bg-gray-800">
+            <button onClick={() => showDiv("add-location-div")} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 rounded-md border border-green-500 hover:border-transparent rounded hover:cursor-pointer">
               Helyszín hozzáadása
-          </button>
+            </button>
+          </div>
       </>
   );
 }
