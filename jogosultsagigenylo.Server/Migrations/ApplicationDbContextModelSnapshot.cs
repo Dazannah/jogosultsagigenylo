@@ -48,41 +48,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("AuthItems", (string)null);
-                });
-
-            modelBuilder.Entity("jogosultsagigenylo.Server.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DisplayName = "fekvőbeteg"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DisplayName = "járóbeteg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DisplayName = "kisegítő osztályok"
-                        });
+                    b.ToTable("AuthItems");
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Column", b =>
@@ -107,7 +73,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Columns", (string)null);
+                    b.ToTable("Columns");
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Department", b =>
@@ -118,10 +84,10 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("DepartmentNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("DepartmentNumber2")
                         .HasColumnType("longtext");
 
                     b.Property<string>("DisplayName")
@@ -133,11 +99,9 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Location", b =>
@@ -157,7 +121,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
 
                     b.HasData(
                         new
@@ -205,7 +169,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Status", (string)null);
+                    b.ToTable("Status");
 
                     b.HasData(
                         new
@@ -241,7 +205,7 @@ namespace jogosultsagigenylo.Server.Migrations
 
                     b.HasIndex("AuthItemId");
 
-                    b.ToTable("SubAuthItems", (string)null);
+                    b.ToTable("SubAuthItems");
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.AuthItem", b =>
@@ -276,32 +240,27 @@ namespace jogosultsagigenylo.Server.Migrations
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Department", b =>
                 {
-                    b.HasOne("jogosultsagigenylo.Server.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("jogosultsagigenylo.Server.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-
                     b.Navigation("Location");
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.SubAuthItem", b =>
                 {
-                    b.HasOne("jogosultsagigenylo.Server.Models.AuthItem", "AuthItem")
-                        .WithMany()
+                    b.HasOne("jogosultsagigenylo.Server.Models.AuthItem", null)
+                        .WithMany("SubAuthItems")
                         .HasForeignKey("AuthItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("AuthItem");
+            modelBuilder.Entity("jogosultsagigenylo.Server.Models.AuthItem", b =>
+                {
+                    b.Navigation("SubAuthItems");
                 });
 
             modelBuilder.Entity("jogosultsagigenylo.Server.Models.Column", b =>
