@@ -20,6 +20,8 @@ import {
     horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import AdminSubAuthItem from "./AdminIncludes/AdminSubAuthItem"
+import AdminAuthItemColumn from './AdminIncludes/AdminAuthItemColumn'
 import Container from "../Container";
 
 import { AppContext, DispatchContext } from "../../main";
@@ -133,11 +135,10 @@ function SubAuthorizations() {
                 <div className="flex flex-wrap">
 
 
-                    {authItems.map(column => {
+                    {authItems.map(authItem => {
                         return (
-                            "asd"
                             //<AdminColumn id={`${column.id}-div`} key={`admin-column-key-${column.id}`} column={column} statuses={statuses} columns={columns} setIsLoading={setIsLoading} setActiveItem={setActiveItem} />
-
+                            < AdminAuthItemColumn id={`${authItem.id}-div`} key={`admin-authItem-key-${authItem.id}`} authItem={authItem} subAuthItems={authItem.subAuthItems} setActiveItem={setActiveItem} />
                         );
                     })}
 
@@ -146,7 +147,8 @@ function SubAuthorizations() {
                         {activeItem ?
                             <table className="w-full">
                                 <tbody>
-                                    <AdminAuthItem id={`${activeItem.id}-tr`} key={`admin-authItem-key-${activeItem.id}`} authItem={activeItem} columnId={activeItem.id} showDiv={() => { }} grabbing={true} />
+                                    {/*<AdminAuthItem id={`${activeItem.id}-tr`} key={`admin-authItem-key-${activeItem.id}`} authItem={activeItem} columnId={activeItem.id} showDiv={() => { }} grabbing={true} />*/}
+                                    <AdminSubAuthItem id={`${activeItem.id}-tr`} key={`admin-activeItem-key-${activeItem.id}`} subAuthItem={activeItem} subAuthItemId={activeItem.id} />
                                 </tbody>
                             </table>
                             : null}
