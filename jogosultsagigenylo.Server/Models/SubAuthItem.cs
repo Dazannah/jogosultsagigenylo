@@ -8,5 +8,9 @@ namespace jogosultsagigenylo.Server.Models {
 		public int Id { get; set; }
 		public required string DisplayName { get; set; }
 		public required int AuthItemId { get; set; }
+
+		public required int StatusId { get; set; }
+		[ForeignKey("StatusId")]
+		public Status Status { get; set; }
 	}
 }

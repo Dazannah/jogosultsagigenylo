@@ -21,6 +21,7 @@ namespace jogosultsagigenylo.Server.Controllers {
 			IEnumerable<AuthItem> authItems = await _context.AuthItems
 				.Include(ai => ai.Status)
 				.Include(ai => ai.SubAuthItems)
+				.ThenInclude(sai => sai.Status)
 				.ToListAsync();
 
 			return new JsonResult(new { authItems });
